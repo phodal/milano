@@ -8,7 +8,10 @@ define([
     image.y = 100;
 
     stage.addChild(image);
-    stage.update();
+    createjs.Ticker.on("tick", handleTick);
+    function handleTick(event) {
+      stage.update();
+    }
   };
 
   return {

@@ -15,7 +15,10 @@ define([
       .to({x: 400}, 1000, createjs.Ease.getPowInOut(4))
       .to({alpha: 0, y: 175}, 500, createjs.Ease.getPowInOut(2))
       .to({alpha: 0, y: 225}, 100)
-      .call(callback);
+      .call(function() {
+        stage.clear();
+        callback();
+      });
 
     createjs.Ticker.setFPS(60);
     createjs.Ticker.addEventListener("tick", stage);
