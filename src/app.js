@@ -4,27 +4,34 @@ define([
   'src/constants/scenes.js',
   'createjs'
 ], function (SceneSwitcher, Colors, SCENES) {
+  var stage;
+
+  var startGame = function () {
+    stage.clear();
+    SceneSwitcher.goto(SCENES.SCENES_1);
+  };
+
   function createStartMenu(stage) {
     var text = new createjs.Text("Start Game", "32px monospace", Colors.menuColor);
     text.x = stage.canvas.width / 2 - 100;
     text.y = stage.canvas.height / 2;
     text.textBaseline = "alphabetic";
     text.shadow = new createjs.Shadow(Colors.menuShadowColor, 2, 2, 50);
-    text.addEventListener("click", function (event) {
-      stage.clear();
-      SceneSwitcher.goto(SCENES.SCENES_1);
-    });
-
+    text.addEventListener("click", startGame);
     return text;
   }
 
   var initApp = function () {
     loadResources();
-    var stage = new createjs.Stage("demoCanvas");
+    stage = new createjs.Stage("demoCanvas");
     var text = createStartMenu(stage);
 
     stage.addChild(text);
     stage.update();
+
+    if (window.mConfig.debug) {
+      createjs.Tween.get().wait(200).call(startGame);
+    }
   };
 
   var loadResources = function () {
