@@ -7,9 +7,13 @@ define([
     image.x = 100;
     image.y = 100;
 
+    var blur = new createjs.BlurFilter(50, 50, 1);
+    image.filters = [blur];
+
     stage.addChild(image);
     createjs.Ticker.on("tick", handleTick);
-    function handleTick(event) {
+
+    function handleTick() {
       stage.update();
     }
   };
