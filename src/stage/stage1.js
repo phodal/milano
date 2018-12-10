@@ -3,13 +3,25 @@ define([
 ], function () {
   var stage;
   var image;
+  var preload;
 
   var load = function () {
     stage = new createjs.Stage('demoCanvas');
-    image = new createjs.Bitmap('assets/images/background.png');
+    return new Promise(function (resolve, reject) {
+      preload = new createjs.LoadQueue();
+      preload.addEventListener('complete', function () {
+        resolve();
+      });
+      preload.addEventListener('error', function () {
+        reject();
+      });
+      preload.loadFile({ src: 'assets/images/background.png', id: 'background'});
+    })
   };
 
   var start = function () {
+    image = new createjs.Bitmap(preload.getResult("background"));
+
     image.x = 100;
     image.y = 100;
 
