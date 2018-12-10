@@ -15,18 +15,18 @@ define([
       preload.addEventListener('error', function () {
         reject();
       });
-      preload.loadFile({ src: 'assets/images/background.png', id: 'background'});
+      preload.loadManifest({src: 'assets/stages/stage1.manifest.json', type: 'manifest'});
     })
   };
 
   var start = function () {
-    image = new createjs.Bitmap(preload.getResult("background"));
+    image = new createjs.Bitmap(preload.getResult('background'));
 
     image.x = 100;
     image.y = 100;
 
     stage.addChild(image);
-    createjs.Ticker.on("tick", handleTick);
+    createjs.Ticker.on('tick', handleTick);
 
     function handleTick() {
       stage.update();
