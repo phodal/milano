@@ -10,10 +10,10 @@ define([
     stage.update();
 
     scene.load();
-    setTimeout(function () {
+    createjs.Tween.get().wait(1000).call(function () {
       stage.clear();
       scene.start();
-    }, 1000);
+    });
   };
 
   return {
