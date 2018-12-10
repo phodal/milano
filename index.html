@@ -5,7 +5,13 @@
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Milano</title>
-  <script data-main="src/app" src="libs/require.js"></script>
+  <link rel="stylesheet" href="assets/styles/mifa.css">
+  <style>
+    body {
+      margin: 0;
+    }
+  </style>
+  <script data-main="src/main" src="libs/require.js"></script>
   <script type="text/javascript">
     require.config({
       shim: {
@@ -13,7 +19,7 @@
           exports: 'createjs'
         },
         tween: {
-          deps: ['easel'],
+          deps: ['createjs'],
           exports: 'Tween'
         }
       },
@@ -22,10 +28,9 @@
         tween: '../libs/tweenjs.min'
       }
     });
-
   </script>
 </head>
 <body>
-  <canvas id="demoCanvas" width="480" height="800"></canvas>
+  <canvas id="demoCanvas" width="400" height="800"></canvas>
 </body>
 </html>
