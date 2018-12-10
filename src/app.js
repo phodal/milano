@@ -19,12 +19,21 @@ define([
   }
 
   var initApp = function () {
+    loadResources();
     var stage = new createjs.Stage("demoCanvas");
     var text = createStartMenu(stage);
 
     stage.addChild(text);
     stage.update();
-  }
+  };
+
+  var loadResources = function () {
+    var preload = new createjs.LoadQueue();
+    preload.addEventListener('fileload', function () {
+      console.log('handleFileComplete');
+    });
+    preload.loadFile('assets/images/background.png');
+  };
 
   return {
     initApp: initApp
