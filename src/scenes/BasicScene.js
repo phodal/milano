@@ -1,27 +1,19 @@
 define([
+  'src/constants/colors.js',
+  'src/utils/TextUtils.js',
   'createjs'
-], function () {
-  var initialize = function (scene_index, callback) {
+], function (Colors, TextUtils) {
+  var initialize = function (scene_index, scene) {
     var stage = new createjs.Stage("demoCanvas");
-    var circle = new createjs.Shape();
-    circle.graphics.beginFill("Crimson").drawCircle(0, 0, 20);
-    circle.x = 30;
-    circle.y = 30;
-
-    stage.addChild(circle);
+    var displayText = TextUtils.createDisplayText(stage, scene_index);
+    stage.addChild(displayText);
     stage.update();
 
-    createjs.Tween.get(circle, {loop: false})
-      .to({x: 400}, 1000, createjs.Ease.getPowInOut(4))
-      .to({alpha: 0, y: 175}, 500, createjs.Ease.getPowInOut(2))
-      .to({alpha: 0, y: 225}, 100)
-      .call(function() {
-        stage.clear();
-        callback();
-      });
-
-    createjs.Ticker.setFPS(60);
-    createjs.Ticker.addEventListener("tick", stage);
+    scene.load();
+    setTimeout(function () {
+      stage.clear();
+      scene.start();
+    }, 1000);
   };
 
   return {

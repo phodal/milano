@@ -1,14 +1,17 @@
 define([
   'createjs'
 ], function () {
+  var stage;
+  var image;
+
+  var load = function () {
+    stage = new createjs.Stage('demoCanvas');
+    image = new createjs.Bitmap('assets/images/background.png');
+  };
+
   var start = function () {
-    var stage = new createjs.Stage('demoCanvas');
-    var image = new createjs.Bitmap('assets/images/background.png');
     image.x = 100;
     image.y = 100;
-
-    var blur = new createjs.BlurFilter(50, 50, 1);
-    image.filters = [blur];
 
     stage.addChild(image);
     createjs.Ticker.on("tick", handleTick);
@@ -19,6 +22,7 @@ define([
   };
 
   return {
+    load: load,
     start: start
   };
 });
