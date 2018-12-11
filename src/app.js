@@ -24,6 +24,10 @@ define([
   var initApp = function () {
     loadResources();
     stage = new createjs.Stage("demoCanvas");
+    // 重新缩放 Canvas
+    stage.canvas.width = window.innerWidth;
+    stage.canvas.height = window.innerHeight;
+
     var text = createStartMenu(stage);
 
     stage.addChild(text);
