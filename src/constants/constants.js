@@ -1,6 +1,6 @@
 define([], function () {
   var CONSTANTS = {
-    DEFAULT_TIMEOUT: 1000
+    DEFAULT_TIMEOUT: 3000
   };
   return CONSTANTS
 });
