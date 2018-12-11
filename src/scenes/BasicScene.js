@@ -18,7 +18,7 @@ define([
     });
 
     var startNewScene = function () {
-      stage.clear();
+      stage.removeAllChildren();
       AppStage.start();
     };
 

@@ -5,7 +5,7 @@ define([
   var stage;
 
   var startGame = function () {
-    stage.clear();
+    stage.removeAllChildren();
     var firstScene = 0;
     SceneSwitcher.goto(firstScene);
   };

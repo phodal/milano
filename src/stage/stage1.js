@@ -80,7 +80,7 @@ define([
   };
 
   var finish = function () {
-    stage.clear();
+    stage.removeAllChildren();
     SceneSwitcher.nextScene();
   };
 
