@@ -1,6 +1,7 @@
 define([
+  'src/constants/colors.js',
   'createjs'
-], function () {
+], function (COLORS) {
   var stage, preload;
 
   var load = function () {
@@ -19,7 +20,9 @@ define([
   };
 
   var start = function () {
-
+    var shape = new createjs.Shape().set({x: 100, y: 400});
+    shape.graphics.beginFill(COLORS.NORMAL_SUN).drawCircle(0, 0, 20);
+    stage.addChild(shape);
 
     createjs.Ticker.on('tick', function (event) {
       stage.update();
