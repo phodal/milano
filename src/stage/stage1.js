@@ -80,7 +80,8 @@ define([
   };
 
   var finish = function () {
-    console.log('finish');
+    stage.clear();
+    SceneSwitcher.nextScene();
   };
 
   return {

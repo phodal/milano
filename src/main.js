@@ -15,11 +15,13 @@ require.config({
 });
 
 require([
+  'src/services/SceneSwitcher.js',
   'src/app.js'
-], function (App) {
+], function (SceneSwitcher, App) {
   window.mConfig = {
     debug: true
-  }
+  };
 
+  window.SceneSwitcher = SceneSwitcher;
   App.initApp();
 });

@@ -14,12 +14,16 @@ define([
       preload.addEventListener('error', function () {
         reject();
       });
-      preload.loadManifest({src: 'assets/stages/stage1.manifest.json', type: 'manifest'});
+      preload.loadManifest({src: 'assets/stages/stage2.manifest.json', type: 'manifest'});
     })
   };
 
   var start = function () {
 
+
+    createjs.Ticker.on('tick', function (event) {
+      stage.update();
+    });
   };
 
   var finish = function () {

@@ -6,16 +6,16 @@ define([
 ], function (Colors, CONSTANTS, TextUtils) {
   var hasLoadNewStage = false;
   var initialize = function (scene, AppStage) {
+    console.log(scene, AppStage);
     var stage = new createjs.Stage("demoCanvas");
     var displayText = TextUtils.createSceneText(stage, scene);
     stage.addChild(displayText);
 
     createjs.Tween.get(displayText).to({alpha: 0}, CONSTANTS.DEFAULT_TIMEOUT + 100, createjs.Ease.get(1));
-    stage.update();
-
-    createjs.Ticker.addEventListener("tick", function () {
-      // console.log(createjs.Ticker.getTime());
+    createjs.Ticker.on('tick', function (event) {
+      stage.update();
     });
+
     var startNewScene = function () {
       stage.clear();
       AppStage.start();

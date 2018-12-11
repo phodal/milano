@@ -1,8 +1,7 @@
 define([
-  'src/services/SceneSwitcher.js',
   'src/constants/colors.js',
   'createjs'
-], function (SceneSwitcher, Colors) {
+], function (Colors) {
   var stage;
 
   var startGame = function () {
