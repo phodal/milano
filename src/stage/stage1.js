@@ -1,7 +1,8 @@
 define([
+  'src/constants/colors.js',
   'createjs'
-], function () {
-  var stage, image, preload, hill1, hill2, stageWidth, stageHeight, ground;
+], function (COLORS) {
+  var stage, preload, hill1, hill2, stageWidth, stageHeight, ground;
 
   var load = function () {
     stage = new createjs.Stage('demoCanvas');
@@ -32,7 +33,7 @@ define([
     }
   }
 
-  var start = function () {
+  function createBackground() {
     var groundImg = preload.getResult("ground");
     ground = new createjs.Shape();
     ground.graphics.beginBitmapFill(groundImg).drawRect(0, 0, stageWidth + groundImg.width, groundImg.height);
@@ -45,14 +46,33 @@ define([
     hill2 = new createjs.Bitmap(preload.getResult("hill2"));
     hill2.setTransform(Math.random() * stageWidth, stageHeight - hill2.image.height * 3 - groundImg.height, 3, 3);
 
-    stage.addChild(hill1, hill2, ground);
+    stage.addChild(hill1, hill2);
+
+    stage.addChild(ground);
+  }
+
+  function createShape() {
+    var shape = new createjs.Shape().set({x: 100, y: 100});
+    shape.graphics.beginFill(COLORS.SUN).drawCircle(0, 0, 20);
+
+    var blurFilter = new createjs.BlurFilter(50, 50, 1);
+    shape.filters = [blurFilter];
+    var bounds = blurFilter.getBounds();
+
+    shape.cache(-50 + bounds.x, -50 + bounds.y, 100 + bounds.width, 100 + bounds.height);
+
+    stage.addChild(shape);
+  }
+
+  var start = function () {
+    createBackground();
+    createShape();
 
     createjs.Ticker.timingMode = createjs.Ticker.RAF;
     createjs.Ticker.on('tick', handleTick);
 
     function handleTick(event) {
       updateHill(event);
-
       stage.update();
     }
   };

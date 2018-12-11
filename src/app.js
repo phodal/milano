@@ -12,11 +12,11 @@ define([
   };
 
   function createStartMenu(stage) {
-    var text = new createjs.Text("Start Game", "32px monospace", Colors.menuColor);
+    var text = new createjs.Text("Start Game", "32px monospace", Colors.MENU_COLOR);
     text.x = stage.canvas.width / 2 - 100;
     text.y = stage.canvas.height / 2;
     text.textBaseline = "alphabetic";
-    text.shadow = new createjs.Shadow(Colors.menuShadowColor, 2, 2, 50);
+    text.shadow = new createjs.Shadow(Colors.MENU_SHADOW_COLOR, 2, 2, 50);
     text.addEventListener("click", startGame);
     return text;
   }

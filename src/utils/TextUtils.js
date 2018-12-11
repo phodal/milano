@@ -3,7 +3,7 @@ define([
   'createjs'
 ], function (Colors) {
   var createDisplayText = function (stage, index) {
-    var text = new createjs.Text("幕 " + index, "28px monospace", Colors.sceneText);
+    var text = new createjs.Text("幕 " + index, "28px monospace", Colors.SCENE_TEXT);
     text.x = stage.canvas.width - 100;
     text.y = 100;
     text.textBaseline = "alphabetic";
