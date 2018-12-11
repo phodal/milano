@@ -1,5 +1,9 @@
 define([], function () {
-  return {
-    SCENES_1: 1
-  }
-});
+  var SCENES = [{
+    index: 1,
+    title: 'HELLO, WORLD'
+  }];
+
+  return SCENES;
+})
+;

@@ -1,14 +1,14 @@
 define([
   'src/utils/SceneSwitcher.js',
   'src/constants/colors.js',
-  'src/constants/scenes.js',
   'createjs'
-], function (SceneSwitcher, Colors, SCENES) {
+], function (SceneSwitcher, Colors) {
   var stage;
 
   var startGame = function () {
     stage.clear();
-    SceneSwitcher.goto(SCENES.SCENES_1);
+    var firstScene = 0;
+    SceneSwitcher.goto(firstScene);
   };
 
   function createStartMenu(stage) {
@@ -22,7 +22,6 @@ define([
   }
 
   var initApp = function () {
-    loadResources();
     stage = new createjs.Stage("demoCanvas");
     // 重新缩放 Canvas
     stage.canvas.width = window.innerWidth;
@@ -36,14 +35,6 @@ define([
     if (window.mConfig.debug) {
       createjs.Tween.get().wait(200).call(startGame);
     }
-  };
-
-  var loadResources = function () {
-    var preload = new createjs.LoadQueue();
-    preload.addEventListener('fileload', function () {
-      console.log('handleFileComplete');
-    });
-    preload.loadFile('assets/images/background.png');
   };
 
   return {
