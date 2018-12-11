@@ -6,7 +6,6 @@ define([
 ], function (Colors, CONSTANTS, TextUtils) {
   var hasLoadNewStage = false;
   var initialize = function (scene, AppStage) {
-    console.log(scene, AppStage);
     var stage = new createjs.Stage("demoCanvas");
     var displayText = TextUtils.createSceneText(stage, scene);
     stage.addChild(displayText);
