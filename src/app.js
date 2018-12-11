@@ -1,5 +1,5 @@
 define([
-  'src/utils/SceneSwitcher.js',
+  'src/services/SceneSwitcher.js',
   'src/constants/colors.js',
   'createjs'
 ], function (SceneSwitcher, Colors) {

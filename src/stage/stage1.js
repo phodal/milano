@@ -47,21 +47,22 @@ define([
     hill2.setTransform(Math.random() * stageWidth, stageHeight - hill2.image.height * 3 - groundImg.height, 3, 3);
 
     stage.addChild(hill1, hill2);
-
     stage.addChild(ground);
   }
 
   function createSun() {
     var shape = new createjs.Shape().set({x: 100, y: 100});
-    shape.graphics.beginFill(COLORS.NORMAL_SUN).drawCircle(0, 0, 20);
-
     var blurFilter = new createjs.BlurFilter(50, 50, 1);
-    shape.filters = [blurFilter];
     var bounds = blurFilter.getBounds();
 
-    shape.cache(-50 + bounds.x, -50 + bounds.y, 100 + bounds.width, 100 + bounds.height);
+    shape.graphics.beginFill(COLORS.NORMAL_SUN).drawCircle(0, 0, 20);
+    shape.filters = [blurFilter];
 
+    shape.cache(-50 + bounds.x, -50 + bounds.y, 100 + bounds.width, 100 + bounds.height);
     stage.addChild(shape);
+    shape.addEventListener('click', function () {
+      finish();
+    });
     createjs.Tween.get(shape).to({x: stageWidth - 100}, 50000, createjs.Ease.getPowIn(2.2));
   }
 
@@ -78,8 +79,13 @@ define([
     }
   };
 
+  var finish = function () {
+    console.log('finish');
+  };
+
   return {
     load: load,
-    start: start
+    start: start,
+    finish: finish
   };
 });
