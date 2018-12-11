@@ -51,9 +51,9 @@ define([
     stage.addChild(ground);
   }
 
-  function createShape() {
+  function createSun() {
     var shape = new createjs.Shape().set({x: 100, y: 100});
-    shape.graphics.beginFill(COLORS.SUN).drawCircle(0, 0, 20);
+    shape.graphics.beginFill(COLORS.NORMAL_SUN).drawCircle(0, 0, 20);
 
     var blurFilter = new createjs.BlurFilter(50, 50, 1);
     shape.filters = [blurFilter];
@@ -62,11 +62,12 @@ define([
     shape.cache(-50 + bounds.x, -50 + bounds.y, 100 + bounds.width, 100 + bounds.height);
 
     stage.addChild(shape);
+    createjs.Tween.get(shape).to({x: stageWidth - 100}, 50000, createjs.Ease.getPowIn(2.2));
   }
 
   var start = function () {
     createBackground();
-    createShape();
+    createSun();
 
     createjs.Ticker.timingMode = createjs.Ticker.RAF;
     createjs.Ticker.on('tick', handleTick);
