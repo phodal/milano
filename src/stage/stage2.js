@@ -39,6 +39,7 @@ define([
         text.addEventListener('click', function (event) {
           keyboardValues.push(event.target.text);
           console.log(keyboardValues);
+          finish();
         });
         stage.addChild(text);
       }
@@ -55,7 +56,8 @@ define([
   };
 
   var finish = function () {
-
+    stage.clear();
+    SceneSwitcher.nextScene();
   };
 
   return {

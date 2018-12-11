@@ -4,6 +4,7 @@ define([
   'src/constants/scenes.js',
   'src/stage/stage1.js',
   'src/stage/stage2.js',
+  'src/stage/stage3.js',
   'createjs'
 ], function (require, BasicScene, SCENES) {
   var currentIndex;
@@ -15,6 +16,9 @@ define([
         return;
       case 1:
         BasicScene.initialize(SCENES[1], require('src/stage/stage2.js'));
+        return;
+      case 2:
+        BasicScene.initialize(SCENES[2], require('src/stage/stage3.js'));
         return;
       default:
         return;
