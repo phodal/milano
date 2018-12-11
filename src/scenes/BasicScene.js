@@ -13,8 +13,9 @@ define([
     createjs.Tween.get(displayText).to({alpha: 0}, CONSTANTS.DEFAULT_TIMEOUT + 100, createjs.Ease.get(1));
     stage.update();
 
-    createjs.Ticker.framerate = 20;
-    createjs.Ticker.addEventListener("tick", stage);
+    createjs.Ticker.addEventListener("tick", function () {
+      // console.log(createjs.Ticker.getTime());
+    });
     var startNewScene = function () {
       stage.clear();
       AppStage.start();
