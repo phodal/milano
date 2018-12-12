@@ -38,7 +38,7 @@ define([
     Light.aa = function (mode, startPosition, loop) {
       this.initialize(mode, startPosition, loop, {});
       this.shape = new createjs.Shape();
-      this.shape.graphics.rf(["#FFFF00", "rgba(255,255,0,0)"], [0, 1], 0, 0, 0, 0, 0, 4.1).s().p("AgbAcQgMgLAAgRQAAgPAMgMQAMgMAPAAQAQAAAMAMQALAMABAPQgBARgLALQgMAMgQAAQgPAAgMgMg");
+      this.shape.graphics.rf(["#ffffff", "rgba(255,255,0,0)"], [0, 1], 0, 0, 0, 0, 0, 4.1).s().p("AgbAcQgMgLAAgRQAAgPAMgMQAMgMAPAAQAQAAAMAMQALAMABAPQgBARgLALQgMAMgQAAQgPAAgMgMg");
       this.shape.setTransform(4, 4);
       this.timeline.addTween(createjs.Tween.get(this.shape).wait(1));
     };
