@@ -2,7 +2,7 @@ define([
   'src/constants/colors.js',
   'createjs'
 ], function (COLORS) {
-  var stage, preload, typingValue, keyboardValues = [];
+  var stage, preload, typingValue, keyboardFontSize = 30, keyboardValues = [];
   var KEYBOARDS = [
     ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
     ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
@@ -28,22 +28,22 @@ define([
     var text = event.currentTarget.children[1].text;
     if (text === '删除') {
       keyboardValues.pop();
-      typingValue.x = typingValue.x + fontSize / 3;
+      typingValue.x = typingValue.x + keyboardFontSize / 4;
     } else if (text === '确认') {
       finish();
     } else {
       keyboardValues.push(text);
-      typingValue.x = typingValue.x - fontSize / 3;
+      typingValue.x = typingValue.x - keyboardFontSize / 4;
     }
     typingValue.text = keyboardValues.join('');
     stage.update();
   };
 
   var createKeyboards = function () {
-    var kX, kY, fontSize = 30;
+    var kX, kY;
     for (var charsIndex in KEYBOARDS) {
       kX = 50 + charsIndex * 10;
-      kY = stage.canvas.height / 2 + charsIndex * fontSize;
+      kY = stage.canvas.height / 2 + charsIndex * keyboardFontSize;
       for (var index in KEYBOARDS[charsIndex]) {
         var char = KEYBOARDS[charsIndex][index];
         var keyContainer = new createjs.Container();
@@ -55,13 +55,13 @@ define([
         }
 
         var bg1 = new createjs.Shape();
-        bg1.graphics.beginFill(COLORS.KEYBOARD_BG).drawRoundRectComplex(kX - fontSize / 2 + 8, kY - fontSize / 2 - 5,
-          fontSize - 2, fontSize - 2, 4, 4,4,4);
+        bg1.graphics.beginFill(COLORS.KEYBOARD_BG).drawRoundRectComplex(kX - keyboardFontSize / 2 + 8, kY - keyboardFontSize / 2 - 5,
+          keyboardFontSize - 2, keyboardFontSize - 2, 4, 4, 4, 4);
 
         keyboardText.x = kX;
         keyboardText.y = kY;
         keyboardText.textBaseline = "alphabetic";
-        kX = kX + fontSize;
+        kX = kX + keyboardFontSize;
 
         var blurFilter = new createjs.BlurFilter(1, 1, 1);
         keyboardText.filters = [blurFilter];
