@@ -60,10 +60,10 @@ define([
 
   function createSun() {
     var shape = new createjs.Shape().set({x: 100, y: 100});
-    var blurFilter = new createjs.BlurFilter(50, 50, 1);
+    var blurFilter = new createjs.BlurFilter(10, 10, 1);
     var bounds = blurFilter.getBounds();
 
-    shape.graphics.beginFill(COLORS.NORMAL_SUN).drawCircle(0, 0, 20);
+    shape.graphics.beginFill(COLORS.NORMAL_SUN).drawCircle(0, 0, 30);
     shape.filters = [blurFilter];
 
     shape.cache(-50 + bounds.x, -50 + bounds.y, 100 + bounds.width, 100 + bounds.height);
