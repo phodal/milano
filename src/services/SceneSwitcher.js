@@ -30,8 +30,20 @@ define([
     goto(currentIndex);
   }
 
+  function prevScene() {
+    currentIndex = currentIndex - 1;
+    goto(currentIndex);
+  }
+
+  function getIndex() {
+    console.log(currentIndex);
+    return currentIndex;
+  }
+
   return {
+    getIndex: getIndex,
     goto: goto,
-    nextScene: nextScene
+    nextScene: nextScene,
+    prevScene: prevScene
   };
 });
