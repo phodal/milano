@@ -16,11 +16,17 @@ define([
       preload.addEventListener('error', function () {
         reject();
       });
-      preload.loadManifest({src: 'assets/manifest/stage3.manifest.json', type: 'manifest'});
+      preload.loadManifest({src: 'assets/manifest/stage4.manifest.json', type: 'manifest'});
     })
   };
 
   var start = function () {
+    var keyContainer = new createjs.Container();
+    var background = new createjs.Shape();
+    background.graphics.beginFill("#000000").drawRect(0, 0, stage.canvas.width, stage.canvas.height);
+    keyContainer.addChild(background);
+
+    stage.addChild(keyContainer);
     light.action();
 
     createjs.Ticker.timingMode =  createjs.Ticker.RAF_SYNCHED;
