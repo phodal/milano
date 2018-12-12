@@ -2,12 +2,20 @@ define([
   'src/constants/colors.js',
   'createjs'
 ], function (COLORS) {
-  var stage, preload, hill1, hill2, stageWidth, stageHeight, ground;
+  var stage, stageContainer, preload, hill1, hill2, stageWidth, stageHeight, ground, dragBox;
+  var lastDragPoint = 0, offset = new createjs.Point(0, 0);
 
   var load = function () {
     stage = new createjs.Stage('demoCanvas');
+    createjs.Touch.enable(stage);
+    stageContainer = new createjs.Container();
     stageWidth = stage.canvas.width;
     stageHeight = stage.canvas.height;
+
+    dragBox = new createjs.Shape(new createjs.Graphics().beginFill("#ffffff").drawRect(0, 0, stageWidth, stageHeight));
+    dragBox.addEventListener("pressmove", startDrag);
+    // dragBox.addEventListener("pressup", stopDrag);
+    stage.addChild(dragBox);
 
     return new Promise(function (resolve, reject) {
       preload = new createjs.LoadQueue();
@@ -46,8 +54,8 @@ define([
     hill2 = new createjs.Bitmap(preload.getResult("hill2"));
     hill2.setTransform(Math.random() * stageWidth, stageHeight - hill2.image.height * 3 - groundImg.height, 3, 3);
 
-    stage.addChild(hill1, hill2);
-    stage.addChild(ground);
+    stageContainer.addChild(hill1, hill2);
+    stageContainer.addChild(ground);
   }
 
   function createSun() {
@@ -59,16 +67,31 @@ define([
     shape.filters = [blurFilter];
 
     shape.cache(-50 + bounds.x, -50 + bounds.y, 100 + bounds.width, 100 + bounds.height);
-    stage.addChild(shape);
     shape.addEventListener('click', function () {
       finish();
     });
+
+    stageContainer.addChild(shape);
     createjs.Tween.get(shape).to({x: stageWidth - 100}, 50000, createjs.Ease.getPowIn(2.2));
+  }
+
+  function startDrag(event) {
+    if (lastDragPoint === 0) {
+      lastDragPoint = event.stageY;
+      return;
+    }
+    offset.y = event.stageY - lastDragPoint;
+    console.log(event.stageY, lastDragPoint, offset.y);
+    stageContainer.y += offset.y;
+    stage.update();
+    lastDragPoint = event.stageY;
   }
 
   var start = function () {
     createBackground();
     createSun();
+
+    stage.addChild(stageContainer);
 
     createjs.Ticker.timingMode = createjs.Ticker.RAF;
     createjs.Ticker.on('tick', handleTick);
