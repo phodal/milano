@@ -1,6 +1,7 @@
 define([], function () {
   return {
-    KEYBOARD: '#000000',
+    KEYBOARD_BG: '#000000',
+    KEYBOARD: '#ffffff',
     NORMAL_SUN: "#fefb9b",
     SCENE_TEXT: "#ff7700",
     MENU_COLOR: "#ff7700",
