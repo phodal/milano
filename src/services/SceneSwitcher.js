@@ -9,25 +9,10 @@ define([
   'createjs'
 ], function (require, BasicScene, SCENES) {
   var currentIndex;
+
   function goto(scene_index) {
-    console.log('Stage: ' + scene_index);
     currentIndex = scene_index;
-    switch (scene_index) {
-      case 0:
-        BasicScene.initialize(SCENES[0], require('src/stage/stage1.js'));
-        break;
-      case 1:
-        BasicScene.initialize(SCENES[1], require('src/stage/stage2.js'));
-        break;
-      case 2:
-        BasicScene.initialize(SCENES[2], require('src/stage/stage3.js'));
-        break;
-      case 3:
-        BasicScene.initialize(SCENES[3], require('src/stage/stage4.js'));
-        break;
-      default:
-        return;
-    }
+    BasicScene.initialize(SCENES[scene_index], require('src/stage/stage' + (scene_index + 1) + '.js'));
   }
 
   function nextScene() {
@@ -51,4 +36,5 @@ define([
     nextScene: nextScene,
     prevScene: prevScene
   };
-});
+})
+;
