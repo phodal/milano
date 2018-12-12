@@ -14,7 +14,7 @@ define([
 
     dragBox = new createjs.Shape(new createjs.Graphics().beginFill("#ffffff").drawRect(0, 0, stageWidth, stageHeight));
     dragBox.addEventListener("pressmove", startDrag);
-    // dragBox.addEventListener("pressup", stopDrag);
+    dragBox.addEventListener("pressup", stopDrag);
     stage.addChild(dragBox);
 
     return new Promise(function (resolve, reject) {
@@ -81,10 +81,19 @@ define([
       return;
     }
     offset.y = event.stageY - lastDragPoint;
-    console.log(event.stageY, lastDragPoint, offset.y);
-    stageContainer.y += offset.y;
+    var newStageY = stageContainer.y + offset.y;
+    // 限制拖拽的高度
+    if (newStageY > 0 || Math.abs(newStageY) > stage.canvas.height * 0.8) {
+      return;
+    }
+    stageContainer.y = newStageY;
     stage.update();
     lastDragPoint = event.stageY;
+  }
+
+  function stopDrag(event) {
+    lastDragPoint = 0;
+    console.log(stageContainer.y);
   }
 
   var start = function () {
