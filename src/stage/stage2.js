@@ -43,6 +43,12 @@ define([
         keyboardText.textBaseline = "alphabetic";
         kX = kX + fontSize;
 
+        var blurFilter = new createjs.BlurFilter(1, 1, 1);
+        keyboardText.filters = [blurFilter];
+        var bounds = blurFilter.getBounds();
+
+        keyboardText.cache(-50 + bounds.x, -50 + bounds.y, 100 + bounds.width, 100 + bounds.height);
+
         keyContainer.addChild(bg1, keyboardText);
         keyboardText.addEventListener('click', function (event) {
           keyboardValues.push(event.target.text);
