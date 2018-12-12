@@ -17,7 +17,7 @@ define([
       preload.addEventListener('error', function () {
         reject();
       });
-      preload.loadManifest({src: 'assets/stages/stage1.manifest.json', type: 'manifest'});
+      preload.loadManifest({src: 'assets/manifest/stage1.manifest.json', type: 'manifest'});
     })
   };
 

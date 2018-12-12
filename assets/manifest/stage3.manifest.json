@@ -1,0 +1,12 @@
+{
+  "manifest": [
+    {"src":"assets/images/snow/xue1.png", "id":"snow1"},
+    {"src":"assets/images/snow/xue2.png", "id":"snow2"},
+    {"src":"assets/images/snow/xue3.png", "id":"snow3"},
+    {"src":"assets/images/snow/xue4.png", "id":"snow4"},
+    {"src":"assets/images/snow/xue5.png", "id":"snow5"},
+    {"src":"assets/images/snow/xue6.png", "id":"snow6"},
+    {"src":"assets/images/snow/xue7.png", "id":"snow7"},
+    {"src":"assets/images/snow/xue8.png", "id":"snow8"}
+  ]
+}

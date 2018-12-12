@@ -20,7 +20,7 @@ define([
       preload.addEventListener('error', function () {
         reject();
       });
-      preload.loadManifest({src: 'assets/stages/stage2.manifest.json', type: 'manifest'});
+      preload.loadManifest({src: 'assets/manifest/stage2.manifest.json', type: 'manifest'});
     })
   };
 
