@@ -35,23 +35,18 @@ define([
       }
     };
 
-    (Light.aa = function (mode, startPosition, loop) {
+    Light.aa = function (mode, startPosition, loop) {
       this.initialize(mode, startPosition, loop, {});
-
-      // 图层 1
       this.shape = new createjs.Shape();
       this.shape.graphics.rf(["#FFFF00", "rgba(255,255,0,0)"], [0, 1], 0, 0, 0, 0, 0, 4.1).s().p("AgbAcQgMgLAAgRQAAgPAMgMQAMgMAPAAQAQAAAMAMQALAMABAPQgBARgLALQgMAMgQAAQgPAAgMgMg");
       this.shape.setTransform(4, 4);
-
       this.timeline.addTween(createjs.Tween.get(this.shape).wait(1));
-
-    }).prototype = proto = new createjs.MovieClip();
+    };
+    Light.aa.prototype = proto = new createjs.MovieClip();
     proto.nominalBounds = new createjs.Rectangle(0, 0, 8, 8);
 
-    (Light.lightY = function (mode, startPosition, loop) {
+    Light.lightY = function (mode, startPosition, loop) {
       this.initialize(mode, startPosition, loop, {});
-
-      // 图层 1
       this.instance = new Light.aa();
       this.instance.setTransform(4, 4, 1, 1, 0, 0, 0, 4, 4);
 
@@ -63,30 +58,31 @@ define([
         alpha: 0
       }, 49).wait(1));
 
-    }).prototype = proto = new createjs.MovieClip();
+    };
+    Light.lightY.prototype = proto = new createjs.MovieClip();
     proto.nominalBounds = new createjs.Rectangle(0, 0, 8, 8);
 
-    (Light.light = function (mode, startPosition, loop) {
+    Light.light = function (mode, startPosition, loop) {
       this.initialize(mode, startPosition, loop, {});
 
-    }).prototype = proto = new createjs.MovieClip();
+    };
+    Light.light.prototype = proto = new createjs.MovieClip();
     proto.nominalBounds = null;
   };
 
   Light.prototype.action = function () {
     var scount = 300;
-    for(var i = 0;i < scount;i++)
-    {
+    for (var i = 0; i < scount; i++) {
       var light = new Light.lightY();
-      light.x = 1920*Math.random();
+      light.x = 1920 * Math.random();
       light.y = 600;
-      light.gotoAndPlay(Math.ceil(Math.random()*light.totalFrames));
+      light.gotoAndPlay(Math.ceil(Math.random() * light.totalFrames));
       light.mouseEnabled = false;
       light.mouseChildren = false;
       this.stage.addChild(light);
       var scale = 0.3 + Math.random() * 0.7;
-      var arrow = Math.random() > 0.5?1:-1; // 左右2个方向随机
-      light.scaleX = scale*arrow;
+      var arrow = Math.random() > 0.5 ? 1 : -1; // 左右2个方向随机
+      light.scaleX = scale * arrow;
       light.scaleY = scale;
       light.alpha = 0.4 + Math.random() * 0.3;
     }
