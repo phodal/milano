@@ -8,6 +8,9 @@ define([], function () {
   }, {
     index: 3,
     title: 'MEETINGS'
+  }, {
+    index: 4,
+    title: 'FIX IT'
   }];
 
   return SCENES;

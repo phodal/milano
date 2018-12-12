@@ -5,10 +5,12 @@ define([
   'src/stage/stage1.js',
   'src/stage/stage2.js',
   'src/stage/stage3.js',
+  'src/stage/stage4.js',
   'createjs'
 ], function (require, BasicScene, SCENES) {
   var currentIndex;
   function goto(scene_index) {
+    console.log('Stage: ' + scene_index);
     currentIndex = scene_index;
     switch (scene_index) {
       case 0:
@@ -19,6 +21,9 @@ define([
         break;
       case 2:
         BasicScene.initialize(SCENES[2], require('src/stage/stage3.js'));
+        break;
+      case 3:
+        BasicScene.initialize(SCENES[3], require('src/stage/stage4.js'));
         break;
       default:
         return;
