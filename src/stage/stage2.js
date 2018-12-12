@@ -50,9 +50,10 @@ define([
         keyboardText.cache(-50 + bounds.x, -50 + bounds.y, 100 + bounds.width, 100 + bounds.height);
 
         keyContainer.addChild(bg1, keyboardText);
-        keyboardText.addEventListener('click', function (event) {
-          keyboardValues.push(event.target.text);
-          typingValue.text = typingValue.text + event.target.text;
+        keyContainer.on('click', function (event) {
+          var text = event.currentTarget.children[1].text;
+          keyboardValues.push(text);
+          typingValue.text = typingValue.text + text;
           typingValue.x = typingValue.x - fontSize / 3;
           stage.update();
         });
