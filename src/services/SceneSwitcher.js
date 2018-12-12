@@ -13,13 +13,13 @@ define([
     switch (scene_index) {
       case 0:
         BasicScene.initialize(SCENES[0], require('src/stage/stage1.js'));
-        return;
+        break;
       case 1:
         BasicScene.initialize(SCENES[1], require('src/stage/stage2.js'));
-        return;
+        break;
       case 2:
         BasicScene.initialize(SCENES[2], require('src/stage/stage3.js'));
-        return;
+        break;
       default:
         return;
     }
