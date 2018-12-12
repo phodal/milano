@@ -35,7 +35,7 @@ define([
 
         var bg1 = new createjs.Shape();
         bg1.graphics.beginFill(COLORS.KEYBOARD_BG).drawRoundRectComplex(kX - fontSize / 2 + 8, kY - fontSize / 2 - 5,
-          fontSize - 2, fontSize - 2, 5, 5, 5, 5);
+          fontSize - 2, fontSize - 2, 4, 4,4,4);
 
         var keyboardText = new createjs.Text(char, "24px monospace", COLORS.KEYBOARD);
         keyboardText.x = kX;
