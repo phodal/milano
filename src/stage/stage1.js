@@ -7,8 +7,11 @@ define([
 
   var load = function () {
     stage = new createjs.Stage('demoCanvas');
+    preload = new createjs.LoadQueue();
     createjs.Touch.enable(stage);
+    createjs.Sound.alternateExtensions = ["mp3"];
     stageContainer = new createjs.Container();
+
     stageWidth = stage.canvas.width;
     stageHeight = stage.canvas.height;
 
@@ -18,7 +21,7 @@ define([
     stage.addChild(dragBox);
 
     return new Promise(function (resolve, reject) {
-      preload = new createjs.LoadQueue();
+      preload.installPlugin(createjs.Sound);
       preload.addEventListener('complete', function () {
         resolve();
       });
@@ -93,6 +96,7 @@ define([
 
   function stopDrag(event) {
     lastDragPoint = 0;
+    createjs.Sound.play("pop.mp3");
   }
 
   var start = function () {
