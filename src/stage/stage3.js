@@ -28,16 +28,17 @@ define([
     keyContainer.addChild(background);
 
     stage.addChild(keyContainer);
-    nextButton();
-
-    createjs.Ticker.on('tick', function () {
-
-    });
-
-    stage.update();
 
     snow = new Snow(stage);
     snow.action();
+
+    nextButton();
+
+    createjs.Ticker.on('tick', function () {
+      stage.update();
+    });
+
+    stage.update();
   };
 
   function nextButton() {
@@ -66,7 +67,6 @@ define([
     background.onClick = label.onClick = handleClick;
     button.onClick = handleClick;
 
-    new createjs.ButtonHelper(button, "out", "over", "down", false, button, "hit");
     button.addEventListener('click', handleClick);
 
     function handleClick(event) {
