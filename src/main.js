@@ -19,7 +19,7 @@ require([
   'src/app.js'
 ], function (SceneSwitcher, App) {
   window.mConfig = {
-    debug: true
+    debug: window.location.hostname === 'localhost'
   };
 
   window.SceneSwitcher = SceneSwitcher;
