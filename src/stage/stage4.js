@@ -6,6 +6,8 @@ define([
 
   var load = function () {
     stage = new createjs.Stage('demoCanvas');
+    createjs.Touch.enable(stage);
+
     light =  new Light(stage);
 
     return new Promise(function (resolve, reject) {

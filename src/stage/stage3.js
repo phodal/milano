@@ -6,6 +6,7 @@ define([
 
   var load = function () {
     stage = new createjs.Stage('demoCanvas');
+    createjs.Touch.enable(stage);
 
     return new Promise(function (resolve, reject) {
       preload = new createjs.LoadQueue();
