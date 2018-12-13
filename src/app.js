@@ -11,13 +11,14 @@ define([
   };
 
   function createStartMenu(stage) {
-    var text = new createjs.Text("Start Game", "32px monospace", Colors.MENU_COLOR);
-    text.x = stage.canvas.width / 2 - 100;
-    text.y = stage.canvas.height / 2;
-    text.textBaseline = "middle";
-    text.shadow = new createjs.Shadow(Colors.MENU_SHADOW_COLOR, 2, 2, 50);
-    text.addEventListener("click", startGame);
-    return text;
+    var startText = new createjs.Text("Start Game", "32px monospace", Colors.MENU_COLOR);
+    var bounds = startText.getBounds();
+    startText.x = stage.canvas.width / 2 - bounds.width / 2;
+    startText.y = stage.canvas.height / 2 -  bounds.height / 2;
+    startText.textBaseline = "middle";
+    startText.shadow = new createjs.Shadow(Colors.MENU_SHADOW_COLOR, 2, 2, 50);
+    startText.addEventListener("click", startGame);
+    return startText;
   }
 
   var initApp = function () {
