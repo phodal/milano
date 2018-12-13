@@ -81,7 +81,7 @@ define([
     typingValue = new createjs.Text('', '20px monospace', COLORS.SCENE_TEXT);
     typingValue.x = stage.canvas.width / 2;
     typingValue.y = 100;
-    typingValue.textBaseline = "alphabetic";
+    typingValue.textBaseline = 'middle';
 
     stage.addChild(typingValue);
 

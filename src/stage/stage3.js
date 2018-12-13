@@ -1,7 +1,8 @@
 define([
+  'src/constants/colors.js',
   'src/effects/snow.js',
   'createjs',
-], function (Snow) {
+], function (COLORS, Snow) {
   var stage, preload, snow;
 
   var load = function () {
@@ -27,15 +28,56 @@ define([
     keyContainer.addChild(background);
 
     stage.addChild(keyContainer);
+    nextButton();
+
+    createjs.Ticker.on('tick', function () {
+
+    });
+
     stage.update();
 
-    snow =  new Snow(stage);
+    snow = new Snow(stage);
     snow.action();
-
   };
 
-  var finish = function () {
+  function nextButton() {
+    var background = new createjs.Shape();
+    background.name = "background";
+    background.graphics
+      .setStrokeStyle(1)
+      .beginStroke(COLORS.MENU_COLOR)
+      .beginFill('#ffffff')
+      .drawRoundRect(0, 0, 200, 60, 30);
 
+    var label = new createjs.Text("下一章", "24px Arial", COLORS.MENU_COLOR);
+    label.name = "label";
+    label.textAlign = "center";
+    label.textBaseline = "middle";
+    label.x = 200 / 2;
+    label.y = 60 / 2;
+
+    var button = new createjs.Container();
+    button.name = "button";
+    button.x = stage.canvas.width / 2 - 200 / 2;
+    button.y = stage.canvas.height - 100;
+    button.addChild(background, label);
+    stage.addChild(button);
+
+    background.onClick = label.onClick = handleClick;
+    button.onClick = handleClick;
+
+    new createjs.ButtonHelper(button, "out", "over", "down", false, button, "hit");
+    button.addEventListener('click', handleClick);
+
+    function handleClick(event) {
+      console.log(event);
+      finish();
+    }
+  }
+
+  var finish = function () {
+    stage.removeAllChildren();
+    SceneSwitcher.nextScene();
   };
 
   return {

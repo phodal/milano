@@ -93,8 +93,6 @@ define([
 
   function stopDrag(event) {
     lastDragPoint = 0;
-    console.log(stageContainer.y);
-    console.log(stage.mouseX);
   }
 
   var start = function () {

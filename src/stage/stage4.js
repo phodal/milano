@@ -39,7 +39,8 @@ define([
   };
 
   var finish = function () {
-
+    stage.removeAllChildren();
+    SceneSwitcher.nextScene();
   };
 
   return {
