@@ -18,6 +18,7 @@ require([
   'src/services/SceneSwitcher.js',
   'src/app.js'
 ], function (SceneSwitcher, App) {
+  document.getElementById("loading").remove();
   window.mConfig = {
     debug: window.location.hostname === 'localhost'
   };
