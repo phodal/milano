@@ -6,6 +6,7 @@ define([
   'src/stage/stage2.js',
   'src/stage/stage3.js',
   'src/stage/stage4.js',
+  'src/stage/stage5.js',
   'createjs'
 ], function (require, BasicScene, SCENES) {
   var currentIndex;

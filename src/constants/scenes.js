@@ -11,6 +11,9 @@ define([], function () {
   }, {
     index: 4,
     title: 'FIX IT'
+  }, {
+    index: 5,
+    title: 'DATING'
   }];
 
   return SCENES;

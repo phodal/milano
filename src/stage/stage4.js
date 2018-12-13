@@ -1,14 +1,12 @@
 define([
-  'src/effects/light.js',
+  'src/constants/colors.js',
   'createjs',
-], function (Light) {
+], function (COLORS) {
   var stage, preload, light;
 
   var load = function () {
     stage = new createjs.Stage('demoCanvas');
     createjs.Touch.enable(stage);
-
-    light =  new Light(stage);
 
     return new Promise(function (resolve, reject) {
       preload = new createjs.LoadQueue();
@@ -22,17 +20,44 @@ define([
     })
   };
 
-  var start = function () {
-    var keyContainer = new createjs.Container();
+  function nextButton() {
     var background = new createjs.Shape();
-    background.graphics.beginFill("#000000").drawRect(0, 0, stage.canvas.width, stage.canvas.height);
-    keyContainer.addChild(background);
+    background.name = "background";
+    background.graphics
+      .setStrokeStyle(1)
+      .beginStroke(COLORS.MENU_SHADOW_COLOR)
+      .beginFill('#ffffff')
+      .drawRoundRect(0, 0, 200, 60, 30);
 
-    stage.addChild(keyContainer);
-    light.action();
+    var label = new createjs.Text("下一章", "24px Arial", COLORS.MENU_COLOR);
+    label.name = "label";
+    label.textAlign = "center";
+    label.textBaseline = "middle";
+    label.x = 200 / 2;
+    label.y = 60 / 2;
+
+    var button = new createjs.Container();
+    button.name = "button";
+    button.x = stage.canvas.width / 2 - 200 / 2;
+    button.y = 100;
+    button.addChild(background, label);
+    stage.addChild(button);
+
+    background.onClick = label.onClick = handleClick;
+    button.onClick = handleClick;
+
+    button.addEventListener('click', handleClick);
+
+    function handleClick(event) {
+      console.log(event);
+      finish();
+    }
+  }
+
+  var start = function () {
+    nextButton();
 
     createjs.Ticker.timingMode =  createjs.Ticker.RAF_SYNCHED;
-    createjs.Ticker.setFPS(30);
     createjs.Ticker.addEventListener("tick", function () {
       stage.update();
     });
