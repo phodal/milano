@@ -2,7 +2,7 @@ define([
   'src/constants/colors.js',
   'createjs'
 ], function (COLORS) {
-  var stage, stageContainer, preload, hill1, hill2, stageWidth, stageHeight, ground, dragBox;
+  var stage, stageContainer, preload, hill1, hill2, stageWidth, stageHeight, ground, dragBox, sunShape;
   var lastDragPoint = 0, offset = new createjs.Point(0, 0);
 
   var load = function () {
@@ -59,20 +59,20 @@ define([
   }
 
   function createSun() {
-    var shape = new createjs.Shape().set({x: 100, y: 100});
+    sunShape = new createjs.Shape().set({x: 100, y: 100});
     var blurFilter = new createjs.BlurFilter(10, 10, 1);
     var bounds = blurFilter.getBounds();
 
-    shape.graphics.beginFill(COLORS.NORMAL_SUN).drawCircle(0, 0, 30);
-    shape.filters = [blurFilter];
+    sunShape.graphics.beginFill(COLORS.NORMAL_SUN).drawCircle(0, 0, 30);
+    sunShape.filters = [blurFilter];
 
-    shape.cache(-50 + bounds.x, -50 + bounds.y, 100 + bounds.width, 100 + bounds.height);
-    shape.addEventListener('click', function () {
+    sunShape.cache(-50 + bounds.x, -50 + bounds.y, 100 + bounds.width, 100 + bounds.height);
+    sunShape.addEventListener('click', function () {
       finish();
     });
 
-    stageContainer.addChild(shape);
-    createjs.Tween.get(shape).to({x: stageWidth - 100}, 50000, createjs.Ease.getPowIn(2.2));
+    stageContainer.addChild(sunShape);
+    createjs.Tween.get(sunShape).to({x: stageWidth - 100}, 50000, createjs.Ease.getPowIn(2.2));
   }
 
   function startDrag(event) {
@@ -94,6 +94,7 @@ define([
   function stopDrag(event) {
     lastDragPoint = 0;
     console.log(stageContainer.y);
+    console.log(stage.mouseX);
   }
 
   var start = function () {
@@ -102,12 +103,22 @@ define([
 
     stage.addChild(stageContainer);
 
-    createjs.Ticker.timingMode = createjs.Ticker.RAF;
+    createjs.Ticker.timingMode = createjs.Ticker.RAF_SYNCHED;
     createjs.Ticker.on('tick', handleTick);
 
     function handleTick(event) {
       updateHill(event);
-      stage.update();
+      var l = stageContainer.numChildren;
+      for (var i = 0; i < l; i++) {
+        var child = stageContainer.getChildAt(i);
+        child.alpha = 1;
+        var pt = child.globalToLocal(stage.mouseX, stage.mouseY);
+        if (stage.mouseInBounds && child.hitTest(pt.x, pt.y)) {
+          child.alpha = 0.8;
+        }
+      }
+
+      stage.update(event);
     }
   };
 
