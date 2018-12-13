@@ -54,18 +54,36 @@ define([
     lastDragPoint = 0;
   }
 
-  var start = function () {
+  function handleClock() {
     var clockContainer = clockScene.action();
-    var soundInstance = createjs.Sound.play("definite.mp3", {interrupt: createjs.Sound.INTERRUPT_ANY, loop:-1});
-    stage.addChild(stageContainer);
+    var soundInstance = createjs.Sound.play("definite.mp3", {interrupt: createjs.Sound.INTERRUPT_ANY, loop: -1});
     stage.addEventListener('click', function () {
       clockContainer.removeAllChildren();
       soundInstance.loop = 0;
     });
+  }
+
+  function createOpenEye() {
+    var leftEye = new createjs.Shape();
+    leftEye.graphics.beginFill("#000000")
+      .drawEllipse(25, 120, stage.canvas.width / 2 - 50, 40);
+
+    var rightEye = new createjs.Shape();
+    rightEye.graphics.beginFill("#000000")
+      .drawEllipse(stage.canvas.width / 2 + 25, 120, stage.canvas.width / 2 - 50, 40);
+
+    stageContainer.addChild(leftEye);
+    stageContainer.addChild(rightEye);
+  }
+
+  var start = function () {
+    // handleClock();
+    createOpenEye();
 
     createjs.Ticker.timingMode = createjs.Ticker.RAF_SYNCHED;
     createjs.Ticker.on('tick', handleTick);
 
+    stage.addChild(stageContainer);
     function handleTick(event) {
       clockScene.tick(event);
       stage.update(event);
