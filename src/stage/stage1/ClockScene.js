@@ -1,12 +1,21 @@
 define([
+  'src/constants/colors.js',
   'createjs'
-], function () {
-  var stage, clockText;
+], function (COLORS) {
+  var stage, timeText, clockText, stopClockText, stopButton;
 
   function ClockScene(s) {
     stage = s;
-    clockText = new createjs.Text("123", "48px monospace", "#ffffff");
+    timeText = new createjs.Text("1", "32px monospace", "#ffffff");
+    timeText.textBaseline = 'middle';
+
+    clockText = new createjs.Text("闹钟", "48px monospace", "#ffffff");
     clockText.textBaseline = 'middle';
+
+    stopClockText = new createjs.Text("停止闹钟", "24px monospace", "#ffffff");
+    stopClockText.textBaseline = 'middle';
+
+    stopButton = new createjs.Container();
   }
 
   ClockScene.prototype.tick = function (event) {
@@ -35,10 +44,10 @@ define([
       theSeconds = "0" + theSeconds;
     }
 
-    var bounds = clockText.getBounds();
-    clockText.x = stage.canvas.width / 2 - bounds.width / 2;
-    clockText.y = 100;
-    clockText.text = theHours + ":" + theMinutes + ":" + theSeconds;
+    var bounds = timeText.getBounds();
+    timeText.x = stage.canvas.width / 2 - bounds.width / 2;
+    timeText.y = 100;
+    timeText.text = theHours + ":" + theMinutes + ":" + theSeconds;
   };
 
   ClockScene.prototype.action = function () {
@@ -47,8 +56,18 @@ define([
     background.graphics.beginFill("#000000").drawRect(0, 0, stage.canvas.width, stage.canvas.height);
     keyContainer.addChild(background);
 
+    var clockBounds = clockText.getBounds();
+    clockText.x = stage.canvas.width / 2 - clockBounds.width / 2;
+    clockText.y = stage.canvas.height / 2 - clockBounds.height / 2;
+
+    var stopClockBounds = stopClockText.getBounds();
+    stopClockText.x = stage.canvas.width / 2 - stopClockBounds.width / 2;
+    stopClockText.y = stage.canvas.height - 100;
+
     stage.addChild(keyContainer);
+    stage.addChild(timeText);
     stage.addChild(clockText);
+    stage.addChild(stopClockText);
   };
 
   return ClockScene;
