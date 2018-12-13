@@ -55,10 +55,11 @@ define([
   }
 
   var start = function () {
-    clockScene.action();
+    var clockContainer = clockScene.action();
     var soundInstance = createjs.Sound.play("definite.mp3", {interrupt: createjs.Sound.INTERRUPT_ANY, loop:-1});
     stage.addChild(stageContainer);
     stage.addEventListener('click', function () {
+      clockContainer.removeAllChildren();
       soundInstance.loop = 0;
     });
 
