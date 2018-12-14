@@ -1,7 +1,8 @@
 define([
   'src/constants/colors.js',
+  'src/utils/EventBus.js',
   'createjs'
-], function (COLORS) {
+], function (COLORS, EventBus) {
   var stage, background, sceneContainer, questions;
   var questionHeight = 40;
   var questionMargin = 20;
@@ -44,7 +45,7 @@ define([
     button.addEventListener('click', handleClick);
 
     function handleClick(event) {
-      console.log(event);
+      EventBus.post('select.scene.done', event.currentTarget.children[1].text);
     }
   }
 
@@ -71,6 +72,9 @@ define([
 
   };
 
+  SelectScene.prototype.finish = function () {
+    sceneContainer.removeAllChildren();
+  };
 
   SelectScene.prototype.action = function () {
     sceneContainer.addChild(background);
