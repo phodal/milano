@@ -1,8 +1,9 @@
 define([
   'src/constants/colors.js',
   'src/stage/stage1/ClockScene.js',
+  'src/scenes/SelectScene.js',
   'createjs'
-], function (COLORS, ClockScene) {
+], function (COLORS, ClockScene, SelectScene) {
   var stage, stageContainer, preload, stageWidth, stageHeight, dragBox, clockScene;
   var lastDragPoint = 0, offset = new createjs.Point(0, 0);
 
@@ -64,10 +65,6 @@ define([
   }
 
   function createOpenEye() {
-    var background = new createjs.Shape();
-    background.graphics.beginFill("#000000").drawRect(0, 0, stage.canvas.width, stage.canvas.height);
-    stageContainer.addChild(background);
-
     var leftEye = new createjs.Shape();
     leftEye.graphics.beginFill('#ffffff')
       .drawEllipse(25, 120, stageWidth / 2 - 50, 40);
@@ -81,16 +78,24 @@ define([
   }
 
   var start = function () {
+    var background = new createjs.Shape();
+    background.graphics.beginFill(COLORS.DEFAULT_BG).drawRect(0, 0, stageWidth, stageHeight);
+    stageContainer.addChild(background);
+
     // handleClock();
     // createOpenEye();
+    stage.addChild(stageContainer);
+
+    var selectScene = new SelectScene(stage, ['A', 'B', 'C']);
+    selectScene.action();
 
     createjs.Ticker.timingMode = createjs.Ticker.RAF_SYNCHED;
     createjs.Ticker.on('tick', handleTick);
 
-    stage.addChild(stageContainer);
 
     function handleTick(event) {
       clockScene.tick(event);
+      selectScene.tick(event);
       stage.update(event);
     }
   };

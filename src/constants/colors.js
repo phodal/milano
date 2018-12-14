@@ -1,5 +1,7 @@
 define([], function () {
   return {
+    SELECT_BG: '#ff001d',
+    DEFAULT_BG: '#f5f5f5',
     KEYBOARD_BG: '#000000',
     KEYBOARD_DELETE: '#ff001d',
     KEYBOARD: '#ffffff',
