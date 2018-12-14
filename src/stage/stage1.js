@@ -64,12 +64,16 @@ define([
   }
 
   function createOpenEye() {
+    var background = new createjs.Shape();
+    background.graphics.beginFill("#000000").drawRect(0, 0, stage.canvas.width, stage.canvas.height);
+    stageContainer.addChild(background);
+
     var leftEye = new createjs.Shape();
-    leftEye.graphics.beginFill('#000000')
+    leftEye.graphics.beginFill('#ffffff')
       .drawEllipse(25, 120, stageWidth / 2 - 50, 40);
 
     var rightEye = new createjs.Shape();
-    rightEye.graphics.beginFill('#000000')
+    rightEye.graphics.beginFill('#ffffff')
       .drawEllipse(stageWidth / 2 + 25, 120, stageWidth / 2 - 50, 40);
 
     stageContainer.addChild(leftEye);
@@ -78,7 +82,7 @@ define([
 
   var start = function () {
     // handleClock();
-    createOpenEye();
+    // createOpenEye();
 
     createjs.Ticker.timingMode = createjs.Ticker.RAF_SYNCHED;
     createjs.Ticker.on('tick', handleTick);
