@@ -10,16 +10,16 @@ define([
     stage = new createjs.Stage('demoCanvas');
     preload = new createjs.LoadQueue();
     createjs.Touch.enable(stage);
-    createjs.Sound.alternateExtensions = ["mp3"];
+    createjs.Sound.alternateExtensions = ['mp3'];
     stageContainer = new createjs.Container();
 
     stageWidth = stage.canvas.width;
     stageHeight = stage.canvas.height;
     clockScene = new ClockScene(stage);
 
-    dragBox = new createjs.Shape(new createjs.Graphics().beginFill("#ffffff").drawRect(0, 0, stageWidth, stageHeight));
-    dragBox.addEventListener("pressmove", startDrag);
-    dragBox.addEventListener("pressup", stopDrag);
+    dragBox = new createjs.Shape(new createjs.Graphics().beginFill('#ffffff').drawRect(0, 0, stageWidth, stageHeight));
+    dragBox.addEventListener('pressmove', startDrag);
+    dragBox.addEventListener('pressup', stopDrag);
     stage.addChild(dragBox);
 
     return new Promise(function (resolve, reject) {
@@ -56,7 +56,7 @@ define([
 
   function handleClock() {
     var clockContainer = clockScene.action();
-    var soundInstance = createjs.Sound.play("definite.mp3", {interrupt: createjs.Sound.INTERRUPT_ANY, loop: -1});
+    var soundInstance = createjs.Sound.play('definite.mp3', {interrupt: createjs.Sound.INTERRUPT_ANY, loop: -1});
     stage.addEventListener('click', function () {
       clockContainer.removeAllChildren();
       soundInstance.loop = 0;
@@ -65,12 +65,12 @@ define([
 
   function createOpenEye() {
     var leftEye = new createjs.Shape();
-    leftEye.graphics.beginFill("#000000")
-      .drawEllipse(25, 120, stage.canvas.width / 2 - 50, 40);
+    leftEye.graphics.beginFill('#000000')
+      .drawEllipse(25, 120, stageWidth / 2 - 50, 40);
 
     var rightEye = new createjs.Shape();
-    rightEye.graphics.beginFill("#000000")
-      .drawEllipse(stage.canvas.width / 2 + 25, 120, stage.canvas.width / 2 - 50, 40);
+    rightEye.graphics.beginFill('#000000')
+      .drawEllipse(stageWidth / 2 + 25, 120, stageWidth / 2 - 50, 40);
 
     stageContainer.addChild(leftEye);
     stageContainer.addChild(rightEye);
@@ -84,6 +84,7 @@ define([
     createjs.Ticker.on('tick', handleTick);
 
     stage.addChild(stageContainer);
+
     function handleTick(event) {
       clockScene.tick(event);
       stage.update(event);
