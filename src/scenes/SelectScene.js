@@ -2,7 +2,11 @@ define([
   'src/constants/colors.js',
   'createjs'
 ], function (COLORS) {
-  var stage, background, sceneContainer, questions, label;
+  var stage, background, sceneContainer, questions;
+  var questionHeight = 40;
+  var questionMargin = 20;
+  var qWidthRatio = 4 / 5;
+
   function SelectScene(s, q) {
     stage = s;
     questions = q;
@@ -11,22 +15,56 @@ define([
     background = new createjs.Shape();
   }
 
+  function createQuestion(str, posX, posY) {
+    var rectW = stage.canvas.width * qWidthRatio, rectY = questionHeight;
+    var questionBG = new createjs.Shape();
+    questionBG.name = "questionBG";
+    questionBG.graphics
+      .setStrokeStyle(1)
+      .beginStroke(COLORS.MENU_COLOR)
+      .beginFill('#ffffff')
+      .drawRoundRect(0, 0, rectW, questionHeight, 20);
+
+    var questionText = new createjs.Text(str, "24px Arial", COLORS.MENU_COLOR);
+    questionText.name = "questionText";
+    questionText.textAlign = "left";
+    questionText.textBaseline = "middle";
+    questionText.x = questionHeight;
+    questionText.y = rectY / 2;
+
+    var button = new createjs.Container();
+    button.name = "button";
+    button.x = posX;
+    button.y = posY;
+    button.addChild(questionBG, questionText);
+    sceneContainer.addChild(button);
+
+    background.onClick = questionText.onClick = handleClick;
+    button.onClick = handleClick;
+    button.addEventListener('click', handleClick);
+
+    function handleClick(event) {
+      console.log(event);
+    }
+  }
+
   SelectScene.prototype.init = function () {
-    background.graphics.beginFill(COLORS.SELECT_BG).drawRect(0, 0, stage.canvas.width, stage.canvas.height);
+    var stageW = stage.canvas.width;
+    var stageH = stage.canvas.height;
+    background.graphics.beginFill(COLORS.SELECT_BG).drawRect(0, 0, stageW, stageH);
     background.alpha = 0.5;
 
-    var blurFilter = new createjs.BlurFilter(stage.canvas.width, stage.canvas.width, 1);
+    var blurFilter = new createjs.BlurFilter(stageW, stageW, 1);
     background.filters = [blurFilter];
     var bounds = blurFilter.getBounds();
 
-    background.cache(-50 + bounds.x, -50 + bounds.y, 100 + stage.canvas.width, 100 + stage.canvas.height);
+    background.cache(-50 + bounds.x, -50 + bounds.y, 100 + stageW, 100 + stageH);
 
-    label = new createjs.Text("下一章", "24px Arial", COLORS.MENU_COLOR);
-    label.name = "label";
-    label.textAlign = "center";
-    label.textBaseline = "middle";
-    label.x = 200 / 2;
-    label.y = 60 / 2;
+    var qX = stageW * (1 - qWidthRatio) / 2, qY = (stageH - questions.length * (questionHeight + questionMargin)) / 2;
+    for (var i = 0; i < questions.length; i++) {
+      createQuestion(questions[i], qX, qY);
+      qY = qY + questionHeight + questionMargin;
+    }
   };
 
   SelectScene.prototype.tick = function () {
@@ -35,10 +73,9 @@ define([
 
 
   SelectScene.prototype.action = function () {
-    this.init();
-
     sceneContainer.addChild(background);
-    sceneContainer.addChild(label);
+
+    this.init();
 
     stage.addChild(sceneContainer);
     return sceneContainer;

@@ -86,7 +86,7 @@ define([
     // createOpenEye();
     stage.addChild(stageContainer);
 
-    var selectScene = new SelectScene(stage, ['A', 'B', 'C']);
+    var selectScene = new SelectScene(stage, ['A', 'B.bbbbb', 'C.ccccc']);
     selectScene.action();
 
     createjs.Ticker.timingMode = createjs.Ticker.RAF_SYNCHED;
