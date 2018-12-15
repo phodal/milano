@@ -93,7 +93,6 @@ define([
 
     EventBus.subscribe('select.scene.done', function (data) {
       console.log(data);
-      selectScene.finish();
       createOpenEye();
     });
 
@@ -103,6 +102,7 @@ define([
 
     function handleTick(event) {
       clockScene.tick(event);
+      selectScene.tick(event);
       stage.update(event);
     }
   };

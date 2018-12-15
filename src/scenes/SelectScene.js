@@ -3,7 +3,7 @@ define([
   'src/utils/EventBus.js',
   'createjs'
 ], function (COLORS, EventBus) {
-  var stage, background, sceneContainer, questions;
+  var stage, background, sceneContainer, questions, hasSelectQuestion = false;
   var questionHeight = 80;
   var questionMargin = 20;
   var qWidthRatio = 4 / 5;
@@ -46,6 +46,7 @@ define([
     button.addEventListener('click', handleClick);
 
     function handleClick(event) {
+      hasSelectQuestion = true;
       EventBus.post('select.scene.done', event.currentTarget.children[1].text);
     }
   }
@@ -54,7 +55,7 @@ define([
     var stageW = stage.canvas.width;
     var stageH = stage.canvas.height;
     background.graphics.beginFill(COLORS.SELECT_BG).drawRect(0, 0, stageW, stageH);
-    background.alpha = 0.5;
+    background.alpha = 0;
     questionHeight = stage.canvas.width * qHeightRatio;
 
     var blurFilter = new createjs.BlurFilter(stageW, stageW, 1);
@@ -71,7 +72,17 @@ define([
   };
 
   SelectScene.prototype.tick = function () {
-
+    if (background.alpha > 1 || background.alpha < 0) {
+      return;
+    }
+    if (hasSelectQuestion) {
+      background.alpha =  background.alpha - 0.02;
+      if (background.alpha <= 0) {
+        this.finish();
+      }
+    } else {
+      background.alpha = background.alpha + 0.01;
+    }
   };
 
   SelectScene.prototype.finish = function () {
