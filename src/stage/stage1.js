@@ -6,9 +6,10 @@ define([
   'createjs'
 ], function (COLORS, ClockScene, SelectScene, EventBus) {
   var stage, stageContainer, preload, stageWidth, stageHeight, dragBox, clockScene, selectScene;
-  var lastDragPoint = 0, offset = new createjs.Point(0, 0);
+  var background, lastDragPoint = 0, offset = new createjs.Point(0, 0);
 
   var load = function () {
+    background = new createjs.Shape();
     stage = new createjs.Stage('demoCanvas');
     preload = new createjs.LoadQueue();
     createjs.Touch.enable(stage);
@@ -85,10 +86,8 @@ define([
   }
 
   var start = function () {
-    var background = new createjs.Shape();
-    background.graphics.beginFill(COLORS.DEFAULT_BG).drawRect(0, 0, stageWidth, stageHeight);
+    background.graphics.beginFill(COLORS.MENU_COLOR).drawRect(0, 0, stageWidth, stageHeight);
     stageContainer.addChild(background);
-
     stage.addChild(stageContainer);
 
     // handleClock();
@@ -100,10 +99,10 @@ define([
 
     EventBus.subscribe('select.scene.done', function (data) {
       console.log(data);
-      createOpenEye();
     });
 
-    createjs.Ticker.timingMode = createjs.Ticker.RAF_SYNCHED;
+    createOpenEye();
+
     createjs.Ticker.on('tick', handleTick);
 
     function handleTick(event) {
