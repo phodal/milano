@@ -81,7 +81,7 @@ define([
   }
 
   var start = function () {
-    // handleClock();
+    handleClock();
     var background = new createjs.Shape();
     background.graphics.beginFill(COLORS.DEFAULT_BG).drawRect(0, 0, stageWidth, stageHeight);
     stageContainer.addChild(background);

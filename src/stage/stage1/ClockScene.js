@@ -1,21 +1,25 @@
 define([
-  'src/constants/colors.js',
   'createjs'
-], function (COLORS) {
+], function () {
   var stage, timeText, clockText, stopClockText, stopButtonContainer, keyContainer;
+  var stageWidth, stageHeight, resizeRatio = 6;
 
   function ClockScene(s) {
     stage = s;
     keyContainer = new createjs.Container();
-    timeText = new createjs.Text("1", "32px monospace", "#ffffff");
+
+    stageWidth = stage.canvas.width;
+    stageHeight = stage.canvas.height;
+
+    timeText = new createjs.Text("1", "24px monospace", "#ffffff");
     timeText.textBaseline = 'middle';
     timeText.textAlign = 'middle';
 
-    clockText = new createjs.Text("闹钟", "48px monospace", "#ffffff");
+    clockText = new createjs.Text("闹钟", "40px monospace", "#ffffff");
     clockText.textAlign = 'middle';
     clockText.textBaseline = "middle";
 
-    stopClockText = new createjs.Text("停止闹钟", "20px monospace", "#ffffff");
+    stopClockText = new createjs.Text("停止闹钟", "16px monospace", "#ffffff");
     stopClockText.textAlign = "center";
     stopClockText.textBaseline = "middle";
 
@@ -50,15 +54,17 @@ define([
 
     var bounds = timeText.getBounds();
     timeText.x = stage.canvas.width / 2 - bounds.width / 2;
-    timeText.y = 100;
+    timeText.y = stage.canvas.height / 6 + 50;
     timeText.text = theHours + ":" + theMinutes + ":" + theSeconds;
 
-    keyContainer.rotation = (Math.random() * 4 + 1) * (Math.random() * 2 > 1 ? 1: - 1);
+    keyContainer.x = keyContainer.x + (Math.random() * 3 + 1) * (Math.random() * 2 > 1 ? 1 : -1);
+    keyContainer.y = keyContainer.y + (Math.random() * 3 + 1) * (Math.random() * 2 > 1 ? 1 : -1);
   };
 
   ClockScene.prototype.action = function () {
     var background = new createjs.Shape();
-    background.graphics.beginFill("#000000").drawRect(0, 0, stage.canvas.width, stage.canvas.height);
+    background.graphics.beginFill("#000000").drawRect(stageWidth / resizeRatio, stageHeight / resizeRatio,
+      stageWidth * 2 / 3, stageHeight * 2 / 3);
     keyContainer.addChild(background);
 
     var clockBounds = clockText.getBounds();
@@ -76,7 +82,7 @@ define([
 
     stopButtonContainer.name = "stopClockButton";
     stopButtonContainer.x = stage.canvas.width / 2 - 50;
-    stopButtonContainer.y = stage.canvas.height - 100;
+    stopButtonContainer.y = stage.canvas.height * 5 / resizeRatio - 100;
     stopButtonContainer.addChild(buttonBg, stopClockText);
 
     keyContainer.addChild(stopButtonContainer);
