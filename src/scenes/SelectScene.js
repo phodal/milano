@@ -4,9 +4,10 @@ define([
   'createjs'
 ], function (COLORS, EventBus) {
   var stage, background, sceneContainer, questions;
-  var questionHeight = 40;
+  var questionHeight = 80;
   var questionMargin = 20;
   var qWidthRatio = 4 / 5;
+  var qHeightRatio = 1 / 5;
 
   function SelectScene(s, q) {
     stage = s;
@@ -22,15 +23,15 @@ define([
     questionBG.name = "questionBG";
     questionBG.graphics
       .setStrokeStyle(1)
-      .beginStroke(COLORS.MENU_COLOR)
+      .beginStroke(COLORS.QUESTION_STROKE)
       .beginFill('#ffffff')
-      .drawRoundRect(0, 0, rectW, questionHeight, 20);
+      .drawRect(0, 0, rectW, questionHeight, 0);
 
-    var questionText = new createjs.Text(str, "24px Arial", COLORS.MENU_COLOR);
+    var questionText = new createjs.Text(str, "24px monospace", COLORS.QUESTION_COLOR);
     questionText.name = "questionText";
     questionText.textAlign = "left";
     questionText.textBaseline = "middle";
-    questionText.x = questionHeight;
+    questionText.x = 20;
     questionText.y = rectY / 2;
 
     var button = new createjs.Container();
@@ -54,6 +55,7 @@ define([
     var stageH = stage.canvas.height;
     background.graphics.beginFill(COLORS.SELECT_BG).drawRect(0, 0, stageW, stageH);
     background.alpha = 0.5;
+    questionHeight = stage.canvas.width * qHeightRatio;
 
     var blurFilter = new createjs.BlurFilter(stageW, stageW, 1);
     background.filters = [blurFilter];
@@ -61,10 +63,10 @@ define([
 
     background.cache(-50 + bounds.x, -50 + bounds.y, 100 + stageW, 100 + stageH);
 
-    var qX = stageW * (1 - qWidthRatio) / 2, qY = (stageH - questions.length * (questionHeight + questionMargin)) / 2;
+    var qX = stageW * (1 - qWidthRatio) / 2, qY = (stageH - questions.length * (questionMargin)) / 2;
     for (var i = 0; i < questions.length; i++) {
       createQuestion(questions[i], qX, qY);
-      qY = qY + questionHeight + questionMargin;
+      qY = qY + questionHeight;
     }
   };
 
