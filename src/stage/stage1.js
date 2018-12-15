@@ -5,7 +5,7 @@ define([
   'src/utils/EventBus.js',
   'createjs'
 ], function (COLORS, ClockScene, SelectScene, EventBus) {
-  var stage, stageContainer, preload, stageWidth, stageHeight, dragBox, clockScene;
+  var stage, stageContainer, preload, stageWidth, stageHeight, dragBox, clockScene, selectScene;
   var lastDragPoint = 0, offset = new createjs.Point(0, 0);
 
   var load = function () {
@@ -62,6 +62,10 @@ define([
     stage.addEventListener('click', function () {
       clockContainer.removeAllChildren();
       soundInstance.loop = 0;
+
+      EventBus.post('stage1.clock.done', function (data) {
+
+      });
     });
 
     stage.addChild(clockContainer);
@@ -81,15 +85,18 @@ define([
   }
 
   var start = function () {
-    handleClock();
     var background = new createjs.Shape();
     background.graphics.beginFill(COLORS.DEFAULT_BG).drawRect(0, 0, stageWidth, stageHeight);
     stageContainer.addChild(background);
 
     stage.addChild(stageContainer);
 
-    var selectScene = new SelectScene(stage, ['A', 'B.bbbbb', 'C.ccccc']);
-    selectScene.action();
+    handleClock();
+
+    selectScene = new SelectScene(stage, ['A', 'B.bbbbb', 'C.ccccc']);
+    EventBus.subscribe('stage1.clock.done', function (data) {
+      selectScene.action();
+    });
 
     EventBus.subscribe('select.scene.done', function (data) {
       console.log(data);
@@ -98,7 +105,6 @@ define([
 
     createjs.Ticker.timingMode = createjs.Ticker.RAF_SYNCHED;
     createjs.Ticker.on('tick', handleTick);
-
 
     function handleTick(event) {
       clockScene.tick(event);

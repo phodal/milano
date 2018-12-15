@@ -72,7 +72,7 @@ define([
   };
 
   SelectScene.prototype.tick = function () {
-    if (background.alpha > 1 || background.alpha < 0) {
+    if (background.alpha > 0.5 || background.alpha < 0) {
       return;
     }
     if (hasSelectQuestion) {
