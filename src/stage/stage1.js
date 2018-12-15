@@ -59,7 +59,7 @@ define([
   function handleClock() {
     var clockContainer = clockScene.action();
     var soundInstance = createjs.Sound.play('definite.mp3', {interrupt: createjs.Sound.INTERRUPT_ANY, loop: -1});
-    stage.addEventListener('click', function () {
+    clockContainer.addEventListener('click', function () {
       clockContainer.removeAllChildren();
       soundInstance.loop = 0;
 
@@ -91,7 +91,7 @@ define([
 
     stage.addChild(stageContainer);
 
-    handleClock();
+    // handleClock();
 
     selectScene = new SelectScene(stage, ['A', 'B.bbbbb', 'C.ccccc']);
     EventBus.subscribe('stage1.clock.done', function (data) {
