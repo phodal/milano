@@ -72,7 +72,7 @@ define([
     stage.addChild(clockContainer);
   }
 
-  function createOpenEye() {
+  function openEyeEffects(callback) {
     var blurFilter = new createjs.BlurFilter(stageWidth, stageWidth, 0.1);
     var bounds = blurFilter.getBounds();
     background.filters = [
@@ -82,7 +82,9 @@ define([
     background.cache(-50 + bounds.x, -50 + bounds.y, 100 + stageWidth, 100 + stageHeight);
 
     createjs.Tween.get(background).to({alpha: 0},1000).call(function () {
-      
+      EventBus.post('stage1.clock.done', function () {
+
+      });
     });
   }
 
@@ -102,7 +104,7 @@ define([
       console.log(data);
     });
 
-    createOpenEye();
+    openEyeEffects();
 
     createjs.Ticker.on('tick', handleTick);
 
