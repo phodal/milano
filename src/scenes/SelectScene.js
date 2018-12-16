@@ -54,7 +54,7 @@ define([
   SelectScene.prototype.init = function () {
     var stageW = stage.canvas.width;
     var stageH = stage.canvas.height;
-    background.graphics.beginFill(COLORS.SELECT_BG).drawRect(0, 0, stageW, stageH);
+    background.graphics.beginFill(COLORS.DEFAULT_BG).drawRect(0, 0, stageW, stageH);
     background.alpha = 0;
     questionHeight = stage.canvas.width * qHeightRatio;
 
@@ -62,7 +62,7 @@ define([
     background.filters = [blurFilter];
     var bounds = blurFilter.getBounds();
 
-    background.cache(-50 + bounds.x, -50 + bounds.y, 100 + stageW, 100 + stageH);
+    background.cache(bounds.x, bounds.y, 100 + stageW, 100 + stageH);
 
     var qX = stageW * (1 - qWidthRatio) / 2, qY = (stageH - questions.length * (questionMargin)) / 2;
     for (var i = 0; i < questions.length; i++) {

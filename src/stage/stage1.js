@@ -82,14 +82,15 @@ define([
     handleClock();
 
     selectScene = new SelectScene(stage, ['A', 'B.bbbbb', 'C.ccccc']);
-    EventBus.subscribe('stage1.clock.done', function (data) {
+    EventBus.subscribe('stage1.clock.done', function () {
       isClockDone = true;
-      createjs.Tween.get(background).to({alpha: 1}, 1000);
+      createjs.Tween.get(background).to({alpha: 0.5}, 1000);
       selectScene.action();
     });
 
     EventBus.subscribe('select.scene.done', function (data) {
       console.log(data);
+      createjs.Tween.get(background).to({alpha: 1}, 1000);
       selectScene.finish();
     });
 
