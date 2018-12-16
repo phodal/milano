@@ -29,9 +29,9 @@ define([
 
     var questionText = new createjs.Text(str, "24px monospace", COLORS.QUESTION_COLOR);
     questionText.name = "questionText";
-    questionText.textAlign = "left";
+    questionText.textAlign = "center";
     questionText.textBaseline = "middle";
-    questionText.x = 20;
+    questionText.x = rectW / 2;
     questionText.y = rectY / 2;
 
     var button = new createjs.Container();

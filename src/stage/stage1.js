@@ -81,7 +81,7 @@ define([
 
     handleClock();
 
-    selectScene = new SelectScene(stage, ['A', 'B.bbbbb', 'C.ccccc']);
+    selectScene = new SelectScene(stage, ['继续睡下去', '起来吃个饭', '准备去上课']);
     EventBus.subscribe('stage1.clock.done', function () {
       isClockDone = true;
       createjs.Tween.get(background).to({alpha: 0.5}, 1000);
