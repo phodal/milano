@@ -73,16 +73,17 @@ define([
   }
 
   function createOpenEye() {
-    var leftEye = new createjs.Shape();
-    leftEye.graphics.beginFill('#ffffff')
-      .drawEllipse(25, 120, stageWidth / 2 - 50, 40);
+    var blurFilter = new createjs.BlurFilter(stageWidth, stageWidth, 0.1);
+    var bounds = blurFilter.getBounds();
+    background.filters = [
+      blurFilter
+    ];
+    stageContainer.filters = [blurFilter];
+    background.cache(-50 + bounds.x, -50 + bounds.y, 100 + stageWidth, 100 + stageHeight);
 
-    var rightEye = new createjs.Shape();
-    rightEye.graphics.beginFill('#ffffff')
-      .drawEllipse(stageWidth / 2 + 25, 120, stageWidth / 2 - 50, 40);
-
-    stageContainer.addChild(leftEye);
-    stageContainer.addChild(rightEye);
+    createjs.Tween.get(background).to({alpha: 0},1000).call(function () {
+      
+    });
   }
 
   var start = function () {
