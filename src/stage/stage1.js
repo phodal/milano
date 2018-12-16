@@ -63,54 +63,43 @@ define([
     clockContainer.addEventListener('click', function () {
       clockContainer.removeAllChildren();
       soundInstance.loop = 0;
-
-      EventBus.post('stage1.clock.done', function (data) {
-
-      });
+      EventBus.post('stage1.clock.done');
     });
 
     stage.addChild(clockContainer);
   }
 
-  function openEyeEffects(callback) {
-    var blurFilter = new createjs.BlurFilter(stageWidth, stageWidth, 0.1);
-    var bounds = blurFilter.getBounds();
-    background.filters = [
-      blurFilter
-    ];
-    stageContainer.filters = [blurFilter];
-    background.cache(-50 + bounds.x, -50 + bounds.y, 100 + stageWidth, 100 + stageHeight);
-
-    createjs.Tween.get(background).to({alpha: 0},1000).call(function () {
-      EventBus.post('stage1.clock.done', function () {
-
-      });
-    });
-  }
-
   var start = function () {
-    background.graphics.beginFill(COLORS.MENU_COLOR).drawRect(0, 0, stageWidth, stageHeight);
+    var isClockDone = false;
+    var sleepImg = preload.getResult("sleep");
+    background.graphics.beginBitmapFill(sleepImg, 'no-repeat')
+      .drawRect(0, 0, stageWidth, stageHeight);
+    background.alpha = 0;
+
     stageContainer.addChild(background);
     stage.addChild(stageContainer);
 
-    // handleClock();
+    handleClock();
 
     selectScene = new SelectScene(stage, ['A', 'B.bbbbb', 'C.ccccc']);
     EventBus.subscribe('stage1.clock.done', function (data) {
+      isClockDone = true;
+      createjs.Tween.get(background).to({alpha: 1}, 1000);
       selectScene.action();
     });
 
     EventBus.subscribe('select.scene.done', function (data) {
       console.log(data);
+      selectScene.finish();
     });
-
-    openEyeEffects();
 
     createjs.Ticker.on('tick', handleTick);
 
     function handleTick(event) {
       clockScene.tick(event);
-      selectScene.tick(event);
+      if (isClockDone) {
+        selectScene.tick(event);
+      }
       stage.update(event);
     }
   };
