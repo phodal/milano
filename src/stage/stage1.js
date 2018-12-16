@@ -3,8 +3,9 @@ define([
   'src/stage/stage1/ClockScene.js',
   'src/scenes/SelectScene.js',
   'src/utils/EventBus.js',
+  'src/services/QuestionServices.js',
   'createjs'
-], function (COLORS, ClockScene, SelectScene, EventBus) {
+], function (COLORS, ClockScene, SelectScene, EventBus, QuestionServices) {
   var stage, stageContainer, preload, stageWidth, stageHeight, dragBox, clockScene, selectScene;
   var background, lastDragPoint = 0, offset = new createjs.Point(0, 0);
 
@@ -81,7 +82,7 @@ define([
 
     handleClock();
 
-    selectScene = new SelectScene(stage, ['继续睡下去', '起来吃个饭', '准备去上课']);
+    selectScene = new SelectScene(stage, QuestionServices.getByType('stage1.getup'));
     EventBus.subscribe('stage1.clock.done', function () {
       isClockDone = true;
       createjs.Tween.get(background).to({alpha: 0.5}, 1000);
