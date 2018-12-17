@@ -91,7 +91,9 @@ define([
 
     EventBus.subscribe('select.scene.done', function (data) {
       console.log(data);
-      createjs.Tween.get(background).to({alpha: 1}, 1000);
+      createjs.Tween.get(background).to({alpha: 1}, 1000).call(function () {
+        createjs.Tween.get(background).to({alpha: 0.1}, 3000);
+      });
       selectScene.finish();
     });
 
