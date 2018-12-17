@@ -73,7 +73,7 @@ define([
   var start = function () {
     var isClockDone = false;
     var sleepImg = preload.getResult("sleep");
-    background.graphics.beginBitmapFill(sleepImg, 'no-repeat')
+    background.graphics.beginBitmapFill(sleepImg, 'no-repeat', null)
       .drawRect(0, 0, stageWidth, stageHeight);
     background.alpha = 0;
 
