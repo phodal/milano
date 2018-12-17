@@ -72,6 +72,11 @@ define([
   }
 
   function createRunningGame() {
+    var bg2 = new createjs.Shape();
+    bg2.graphics.beginFill('#000000').drawRect(0, stageHeight / 2, stageWidth, stageHeight / 2);
+    bg2.graphics.alpha = 1;
+    stageContainer.addChild(bg2);
+
     var groundImg = preload.getResult("ground");
     ground = new createjs.Shape();
     ground.graphics.beginBitmapFill(groundImg).drawRect(0, 0, stageWidth + groundImg.width, groundImg.height);
@@ -84,8 +89,8 @@ define([
     tree2.setTransform(Math.random() * stageWidth, stageHeight - tree2.image.height - groundImg.height + 10, 1, 1);
 
     cloud1 = new createjs.Bitmap(preload.getResult("cloud1"));
-    cloud1.setTransform(Math.random() * stageWidth, stageHeight - cloud1.image.height - groundImg.height  + 10, 1, 1);
-    cloud1.alpha = 0.5;
+    cloud1.setTransform(Math.random() * stageWidth, stageHeight - cloud1.image.height - groundImg.height - 100, 0.5, 0.5);
+    cloud1.alpha = 1;
 
     stageContainer.addChild(tree1, tree2, cloud1);
     stageContainer.addChild(ground);
@@ -99,13 +104,13 @@ define([
     if (tree1.x + tree1.image.width * tree1.scaleX <= 0) {
       tree1.x = stageWidth;
     }
-    cloud1.x = (cloud1.x - deltaS * 30);
-    if (cloud1.x + cloud1.image.width * cloud1.scaleX <= 0) {
-      cloud1.x = stageWidth;
-    }
     tree2.x = (tree2.x - deltaS * 45);
     if (tree2.x + tree2.image.width * tree2.scaleX <= 0) {
       tree2.x = stageWidth;
+    }
+    cloud1.x = (cloud1.x - deltaS * 15);
+    if (cloud1.x + cloud1.image.width * cloud1.scaleX <= 0) {
+      cloud1.x = stageWidth;
     }
   }
 
