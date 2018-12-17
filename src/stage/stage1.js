@@ -7,7 +7,7 @@ define([
   'createjs'
 ], function (COLORS, ClockScene, SelectScene, EventBus, QuestionServices) {
   var stage, stageContainer, preload, stageWidth, stageHeight, dragBox, clockScene, selectScene;
-  var background, lastDragPoint = 0, offset = new createjs.Point(0, 0);
+  var background, lastDragPoint = 0, offset = new createjs.Point(0, 0), tree1, tree2, isRunningGame = false, ground;
 
   var load = function () {
     background = new createjs.Shape();
@@ -70,6 +70,37 @@ define([
     stage.addChild(clockContainer);
   }
 
+  function createRunningGame() {
+    var groundImg = preload.getResult("ground");
+    ground = new createjs.Shape();
+    ground.graphics.beginBitmapFill(groundImg).drawRect(0, 0, stageWidth + groundImg.width, groundImg.height);
+    ground.tileW = groundImg.width;
+    ground.y = stageHeight - groundImg.height;
+
+    tree1 = new createjs.Bitmap(preload.getResult("tree1"));
+    tree1.setTransform(Math.random() * stageWidth, stageHeight - tree1.image.height - groundImg.height + 10, 1, 1);
+    tree2 = new createjs.Bitmap(preload.getResult("tree2"));
+    tree2.setTransform(Math.random() * stageWidth, stageHeight - tree2.image.height - groundImg.height + 10, 1, 1);
+
+    console.log(tree1, tree2);
+    stageContainer.addChild(tree1, tree2);
+    stageContainer.addChild(ground);
+
+    isRunningGame = true;
+  }
+
+  function updateTree(event) {
+    var deltaS = event.delta / 1000;
+    tree1.x = (tree1.x - deltaS * 30);
+    if (tree1.x + tree1.image.width * tree1.scaleX <= 0) {
+      tree1.x = stageWidth;
+    }
+    tree2.x = (tree2.x - deltaS * 45);
+    if (tree2.x + tree2.image.width * tree2.scaleX <= 0) {
+      tree2.x = stageWidth;
+    }
+  }
+
   var start = function () {
     var isClockDone = false;
     var sleepImg = preload.getResult("sleep");
@@ -95,6 +126,8 @@ define([
         createjs.Tween.get(background).to({alpha: 0.1}, 3000);
       });
       selectScene.finish();
+
+      createRunningGame();
     });
 
     createjs.Ticker.on('tick', handleTick);
@@ -103,6 +136,9 @@ define([
       clockScene.tick(event);
       if (isClockDone) {
         selectScene.tick(event);
+      }
+      if (isRunningGame) {
+        updateTree(event);
       }
       stage.update(event);
     }
