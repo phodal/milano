@@ -5,8 +5,10 @@ define([
   'src/scenes/SelectScene.js',
   'src/utils/EventBus.js',
   'src/services/QuestionServices.js',
+  'src/services/DragServices.js',
   'createjs'
-], function (COLORS, ClockScene, RunningScene, SelectScene, EventBus, QuestionServices) {
+], function (COLORS, ClockScene, RunningScene, SelectScene, EventBus, QuestionServices,
+             DragServices) {
   var stage, stageContainer, preload, stageWidth, stageHeight, dragBox, clockScene, selectScene;
   var background, lastDragPoint = 0, offset = new createjs.Point(0, 0),  isRunningGame = false, runningScene;
   var isClockDone = false;
@@ -54,10 +56,15 @@ define([
     stageContainer.y = newStageY;
     stage.update();
     lastDragPoint = event.stageY;
+
+    DragServices.getInstance().setDragDistance(newStageY);
   }
 
   function stopDrag(event) {
     lastDragPoint = 0;
+
+    var distance = DragServices.getInstance().getDragDistance();
+    console.log(distance);
   }
 
   function handleClock() {
