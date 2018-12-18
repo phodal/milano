@@ -44,11 +44,12 @@ define([
     character.addToStage(sceneContainer);
 
     target = sceneContainer.addChild(new createjs.Shape());
-    target.graphics.beginFill("red").drawCircle(0, 0, 45)
-      .beginFill("white").drawCircle(0, 0, 30)
-      .beginFill("red").drawCircle(0, 0, 15);
-    target.x = 100;
-    target.y = 480;
+    target.graphics.beginFill("red").drawCircle(0, 0, 30);
+    target.x = stageWidth - 60;
+    target.y = stageHeight - 240;
+    target.addEventListener('click', function () {
+      character.playAnimation("jump");
+    });
   };
 
   RunningScene.prototype.tick = function (event) {
@@ -75,7 +76,6 @@ define([
     var hitTest = target.hitTest(pt.x, pt.y);
     if (hitTest) {
       console.log(hitTest);
-      character.playAnimation("jump");
     }
   };
 
