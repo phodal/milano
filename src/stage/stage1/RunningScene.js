@@ -3,7 +3,7 @@ define([
   'createjs',
 ], function (CharacterServices) {
   var stage, preload, sceneContainer, cloud1, cloud2, character, tree1, tree2, ground;
-  var stageWidth, stageHeight;
+  var stageWidth, stageHeight, target;
 
   function RunningScene(s, p) {
     stage = s;
@@ -42,6 +42,13 @@ define([
     sceneContainer.addChild(tree1, tree2, cloud1);
     sceneContainer.addChild(ground);
     character.addToStage(sceneContainer);
+
+    target = sceneContainer.addChild(new createjs.Shape());
+    target.graphics.beginFill("red").drawCircle(0, 0, 45)
+      .beginFill("white").drawCircle(0, 0, 30)
+      .beginFill("red").drawCircle(0, 0, 15);
+    target.x = 100;
+    target.y = 480;
   };
 
   RunningScene.prototype.tick = function (event) {
@@ -62,6 +69,13 @@ define([
     if (character) {
       var position = character.getX() + 150 * deltaS;
       character.setX((position >= stageWidth + character.getWidth()) ? -character.getWidth() : position);
+    }
+
+    var pt = character.getObj().localToLocal(100, 0, target);
+    var hitTest = target.hitTest(pt.x, pt.y);
+    if (hitTest) {
+      console.log(hitTest);
+      character.playAnimation("jump");
     }
   };
 

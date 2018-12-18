@@ -9,7 +9,7 @@ define([
       "frames": {"regX": 82, "height": 292, "count": 64, "regY": 0, "width": 165},
       "animations": {
         "run": [0, 25, "run", 1.5],
-        "jump": [26, 63, "run"]
+        "jump": [26, 63, "run", 2]
       }
     });
 
@@ -20,6 +20,9 @@ define([
   }
 
   Character.prototype = {
+    getObj: function() {
+      return this.grant;
+    },
     addToStage: function (stage) {
       stage.addChild(this.grant);
     },
@@ -31,6 +34,9 @@ define([
     },
     getX: function () {
       return this.grant.x;
+    },
+    getY: function () {
+      return this.grant.y;
     },
     setX: function (val) {
       this.grant.x = val;
