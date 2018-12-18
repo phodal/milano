@@ -4,11 +4,12 @@ define([
   'src/scenes/SelectScene.js',
   'src/utils/EventBus.js',
   'src/services/QuestionServices.js',
+  'src/services/CharacterServices.js',
   'createjs'
-], function (COLORS, ClockScene, SelectScene, EventBus, QuestionServices) {
+], function (COLORS, ClockScene, SelectScene, EventBus, QuestionServices, CharacterServices) {
   var stage, stageContainer, preload, stageWidth, stageHeight, dragBox, clockScene, selectScene;
   var background, lastDragPoint = 0, offset = new createjs.Point(0, 0), tree1, tree2, isRunningGame = false, ground;
-  var cloud1, cloud2;
+  var cloud1, cloud2, character;
 
   var load = function () {
     background = new createjs.Shape();
@@ -83,6 +84,9 @@ define([
     ground.tileW = groundImg.width;
     ground.y = stageHeight - groundImg.height;
 
+    character = new CharacterServices(preload.getResult("grant"), {x: 0, y: stageHeight / 2});
+    character.addToStage(stageContainer);
+
     tree1 = new createjs.Bitmap(preload.getResult("tree1"));
     tree1.setTransform(Math.random() * stageWidth, stageHeight - tree1.image.height - groundImg.height + 10, 1, 1);
     tree2 = new createjs.Bitmap(preload.getResult("tree2"));
@@ -111,6 +115,11 @@ define([
     cloud1.x = (cloud1.x - deltaS * 15);
     if (cloud1.x + cloud1.image.width * cloud1.scaleX <= 0) {
       cloud1.x = stageWidth;
+    }
+
+    if (character) {
+      var position = character.getX() + 150 * deltaS;
+      character.setX((position >= stageWidth + character.getWidth()) ? -character.getWidth() : position);
     }
   }
 

@@ -7,6 +7,7 @@
     {"id": "tree2", "src": "assets/stages/stage1/tree2.png"},
     {"id": "cloud1", "src": "assets/stages/stage1/cloud1.png"},
     {"id": "cloud2", "src": "assets/stages/stage1/cloud2.png"},
+    {"id": "grant", "src": "assets/stages/stage1/spritesheet_grant.png"},
     {"id": "pop.mp3", "src": "assets/sounds/messages/pop.mp3"},
     {"id": "definite.mp3", "src": "assets/sounds/messages/definite.mp3"},
     {"id": "quite-impressed.mp3", "src": "assets/sounds/messages/quite-impressed.mp3"}
