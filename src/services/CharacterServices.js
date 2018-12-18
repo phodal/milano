@@ -14,6 +14,8 @@ define([
     });
 
     this.grant = new createjs.Sprite(spriteSheet, "run");
+    this.grant.scaleX = 0.5;
+    this.grant.scaleY = 0.5;
     this.grant.y = pos.y;
   }
 

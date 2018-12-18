@@ -84,9 +84,6 @@ define([
     ground.tileW = groundImg.width;
     ground.y = stageHeight - groundImg.height;
 
-    character = new CharacterServices(preload.getResult("grant"), {x: 0, y: stageHeight / 2});
-    character.addToStage(stageContainer);
-
     tree1 = new createjs.Bitmap(preload.getResult("tree1"));
     tree1.setTransform(Math.random() * stageWidth, stageHeight - tree1.image.height - groundImg.height + 10, 1, 1);
     tree2 = new createjs.Bitmap(preload.getResult("tree2"));
@@ -96,8 +93,11 @@ define([
     cloud1.setTransform(Math.random() * stageWidth, stageHeight - cloud1.image.height - groundImg.height - 100, 0.5, 0.5);
     cloud1.alpha = 1;
 
+    character = new CharacterServices(preload.getResult("grant"), {x: 0, y: stageHeight / 2 + 110});
+
     stageContainer.addChild(tree1, tree2, cloud1);
     stageContainer.addChild(ground);
+    character.addToStage(stageContainer);
 
     isRunningGame = true;
   }
