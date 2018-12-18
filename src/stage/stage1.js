@@ -9,6 +9,7 @@ define([
 ], function (COLORS, ClockScene, RunningScene, SelectScene, EventBus, QuestionServices) {
   var stage, stageContainer, preload, stageWidth, stageHeight, dragBox, clockScene, selectScene;
   var background, lastDragPoint = 0, offset = new createjs.Point(0, 0),  isRunningGame = false, runningScene;
+  var isClockDone = false;
 
   var load = function () {
     background = new createjs.Shape();
@@ -78,12 +79,7 @@ define([
     isRunningGame = true;
   }
 
-  function updateTree(event) {
-    runningScene.tick(event);
-  }
-
   var start = function () {
-    var isClockDone = false;
     var sleepImg = preload.getResult("sleep");
     background.graphics.beginBitmapFill(sleepImg, 'no-repeat', null)
       .drawRect(0, 0, stageWidth, stageHeight);
@@ -112,18 +108,18 @@ define([
     });
 
     createjs.Ticker.on('tick', handleTick);
-
-    function handleTick(event) {
-      clockScene.tick(event);
-      if (isClockDone) {
-        selectScene.tick(event);
-      }
-      if (isRunningGame) {
-        updateTree(event);
-      }
-      stage.update(event);
-    }
   };
+
+  function handleTick(event) {
+    clockScene.tick(event);
+    if (isClockDone) {
+      selectScene.tick(event);
+    }
+    if (isRunningGame) {
+      runningScene.tick(event);
+    }
+    stage.update(event);
+  }
 
   var finish = function () {
     stage.removeAllChildren();
