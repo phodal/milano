@@ -1,9 +1,10 @@
 define([
   'src/services/CharacterServices.js',
+  'src/constants/colors.js',
   'createjs',
-], function (CharacterServices) {
+], function (CharacterServices, Colors) {
   var stage, preload, sceneContainer, cloud1, cloud2, character, tree1, tree2, ground;
-  var stageWidth, stageHeight, target, clockShape;
+  var stageWidth, stageHeight, target, clockShape, timeContainer;
 
   function RunningScene(s, p) {
     stage = s;
@@ -37,7 +38,8 @@ define([
     cloud1.setTransform(Math.random() * stageWidth, stageHeight - cloud1.image.height - groundImg.height - 100, 0.5, 0.5);
     cloud1.alpha = 1;
 
-    character = new CharacterServices(preload.getResult("grant"), {x: 0, y: stageHeight / 2 + 110});
+    character = new CharacterServices(preload.getResult("grant"), {x: 0, y: 0});
+    character.setY(stageHeight - groundImg.height - character.getHeight());
 
     sceneContainer.addChild(tree1, tree2, cloud1);
     sceneContainer.addChild(ground);
@@ -57,15 +59,29 @@ define([
   };
 
   function createClockLine() {
-    if (clockShape) {
-      sceneContainer.removeChild(clockShape);
+    if (timeContainer) {
+      sceneContainer.removeChild(timeContainer);
     }
-    clockShape = sceneContainer.addChild(new createjs.Shape());
+
+    timeContainer = new createjs.Container();
+    timeContainer.name = "button";
+    timeContainer.x = stageWidth;
+    timeContainer.y = stageHeight - 100 - Math.random() * 50;
+
+    clockShape = new createjs.Shape();
     clockShape.graphics
       .beginFill(createjs.Graphics.getHSL(Math.random() * 360, 100, 50))
-      .drawCircle(0, 0, 15);
-    clockShape.x = stageWidth;
-    clockShape.y = stageHeight - 120 + Math.random() * 50;
+      .drawRoundRect(0, 0, 60, 20, 5);
+    clockShape.x = 0;
+    clockShape.y = 0;
+
+    var shapeText = new createjs.Text("7:50", "14px monospace", Colors.KEYBOARD);
+    shapeText.x = 15;
+    shapeText.y = 15;
+    shapeText.textBaseline = "alphabetic";
+
+    timeContainer.addChild(clockShape, shapeText);
+    sceneContainer.addChild(timeContainer);
   }
 
   RunningScene.prototype.tick = function (event) {
@@ -88,14 +104,14 @@ define([
       character.setX((position >= stageWidth + character.getWidth()) ? -character.getWidth() : position);
     }
 
-    clockShape.x = clockShape.x - 6;
-    var pt = character.getObj().localToLocal(120, 240, clockShape);
-    var hitTest = clockShape.hitTest(pt.x, pt.y);
+    timeContainer.x = timeContainer.x - 6;
+    var pt = character.getObj().localToLocal(100, 120, timeContainer);
+    var hitTest = timeContainer.hitTest(pt.x, pt.y);
     if (hitTest) {
       console.log(hitTest);
     }
 
-    if(clockShape.x <= 0) {
+    if(timeContainer.x <= 0) {
       createClockLine();
     }
   };

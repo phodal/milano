@@ -1,7 +1,7 @@
 define([
   'createjs'
 ], function () {
-  var stageContainer, score;
+  var stageContainer;
 
   function RunningGame(container) {
     stageContainer = container;
@@ -12,7 +12,6 @@ define([
   };
 
   RunningGame.prototype.end = function () {
-
     return new Promise(resolve => {
 
     }, reject => {

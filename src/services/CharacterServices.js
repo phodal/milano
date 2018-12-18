@@ -13,8 +13,8 @@ define([
     });
 
     this.grant = new createjs.Sprite(spriteSheet, "run");
-    this.grant.scaleX = 0.5;
-    this.grant.scaleY = 0.5;
+    this.grant.scaleX = 0.3;
+    this.grant.scaleY = 0.3;
     this.grant.y = pos.y;
   }
 
@@ -31,11 +31,17 @@ define([
     getWidth: function () {
       return this.grant.getBounds().width * this.grant.scaleX;
     },
+    getHeight: function () {
+      return this.grant.getBounds().height * this.grant.scaleY;
+    },
     getX: function () {
       return this.grant.x;
     },
     getY: function () {
       return this.grant.y;
+    },
+    setY: function (val) {
+      this.grant.y = val;
     },
     setX: function (val) {
       this.grant.x = val;
