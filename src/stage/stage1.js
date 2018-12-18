@@ -1,15 +1,14 @@
 define([
   'src/constants/colors.js',
   'src/stage/stage1/ClockScene.js',
+  'src/stage/stage1/RunningScene.js',
   'src/scenes/SelectScene.js',
   'src/utils/EventBus.js',
   'src/services/QuestionServices.js',
-  'src/services/CharacterServices.js',
   'createjs'
-], function (COLORS, ClockScene, SelectScene, EventBus, QuestionServices, CharacterServices) {
+], function (COLORS, ClockScene, RunningScene, SelectScene, EventBus, QuestionServices) {
   var stage, stageContainer, preload, stageWidth, stageHeight, dragBox, clockScene, selectScene;
-  var background, lastDragPoint = 0, offset = new createjs.Point(0, 0), tree1, tree2, isRunningGame = false, ground;
-  var cloud1, cloud2, character;
+  var background, lastDragPoint = 0, offset = new createjs.Point(0, 0),  isRunningGame = false, runningScene;
 
   var load = function () {
     background = new createjs.Shape();
@@ -73,54 +72,14 @@ define([
   }
 
   function createRunningGame() {
-    var bg2 = new createjs.Shape();
-    bg2.graphics.beginFill('#000000').drawRect(0, stageHeight / 2, stageWidth, stageHeight / 2);
-    bg2.graphics.alpha = 1;
-    stageContainer.addChild(bg2);
-
-    var groundImg = preload.getResult("ground");
-    ground = new createjs.Shape();
-    ground.graphics.beginBitmapFill(groundImg).drawRect(0, 0, stageWidth + groundImg.width, groundImg.height);
-    ground.tileW = groundImg.width;
-    ground.y = stageHeight - groundImg.height;
-
-    tree1 = new createjs.Bitmap(preload.getResult("tree1"));
-    tree1.setTransform(Math.random() * stageWidth, stageHeight - tree1.image.height - groundImg.height + 10, 1, 1);
-    tree2 = new createjs.Bitmap(preload.getResult("tree2"));
-    tree2.setTransform(Math.random() * stageWidth, stageHeight - tree2.image.height - groundImg.height + 10, 1, 1);
-
-    cloud1 = new createjs.Bitmap(preload.getResult("cloud1"));
-    cloud1.setTransform(Math.random() * stageWidth, stageHeight - cloud1.image.height - groundImg.height - 100, 0.5, 0.5);
-    cloud1.alpha = 1;
-
-    character = new CharacterServices(preload.getResult("grant"), {x: 0, y: stageHeight / 2 + 110});
-
-    stageContainer.addChild(tree1, tree2, cloud1);
-    stageContainer.addChild(ground);
-    character.addToStage(stageContainer);
-
+    runningScene = new RunningScene(stage, preload);
+    var sceneContainer = runningScene.action();
+    stageContainer.addChild(sceneContainer);
     isRunningGame = true;
   }
 
   function updateTree(event) {
-    var deltaS = event.delta / 1000;
-    tree1.x = (tree1.x - deltaS * 30);
-    if (tree1.x + tree1.image.width * tree1.scaleX <= 0) {
-      tree1.x = stageWidth;
-    }
-    tree2.x = (tree2.x - deltaS * 45);
-    if (tree2.x + tree2.image.width * tree2.scaleX <= 0) {
-      tree2.x = stageWidth;
-    }
-    cloud1.x = (cloud1.x - deltaS * 15);
-    if (cloud1.x + cloud1.image.width * cloud1.scaleX <= 0) {
-      cloud1.x = stageWidth;
-    }
-
-    if (character) {
-      var position = character.getX() + 150 * deltaS;
-      character.setX((position >= stageWidth + character.getWidth()) ? -character.getWidth() : position);
-    }
+    runningScene.tick(event);
   }
 
   var start = function () {
