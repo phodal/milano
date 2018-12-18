@@ -3,7 +3,7 @@ define([
   'createjs',
 ], function (CharacterServices) {
   var stage, preload, sceneContainer, cloud1, cloud2, character, tree1, tree2, ground;
-  var stageWidth, stageHeight, target;
+  var stageWidth, stageHeight, target, clockShape;
 
   function RunningScene(s, p) {
     stage = s;
@@ -50,7 +50,23 @@ define([
     target.addEventListener('click', function () {
       character.playAnimation("jump");
     });
+
+    sceneContainer.addChild(target);
+
+    createClockLine();
   };
+
+  function createClockLine() {
+    if (clockShape) {
+      sceneContainer.removeChild(clockShape);
+    }
+    clockShape = sceneContainer.addChild(new createjs.Shape());
+    clockShape.graphics
+      .beginFill(createjs.Graphics.getHSL(Math.random() * 360, 100, 50))
+      .drawCircle(0, 0, 15);
+    clockShape.x = stageWidth;
+    clockShape.y = stageHeight - 120 + Math.random() * 50;
+  }
 
   RunningScene.prototype.tick = function (event) {
     var deltaS = event.delta / 1000;
@@ -68,14 +84,19 @@ define([
     }
 
     if (character) {
-      var position = character.getX() + 150 * deltaS;
+      var position = character.getX() + 50 * deltaS;
       character.setX((position >= stageWidth + character.getWidth()) ? -character.getWidth() : position);
     }
 
-    var pt = character.getObj().localToLocal(100, 0, target);
-    var hitTest = target.hitTest(pt.x, pt.y);
+    clockShape.x = clockShape.x - 6;
+    var pt = character.getObj().localToLocal(120, 240, clockShape);
+    var hitTest = clockShape.hitTest(pt.x, pt.y);
     if (hitTest) {
       console.log(hitTest);
+    }
+
+    if(clockShape.x <= 0) {
+      createClockLine();
     }
   };
 
