@@ -2,7 +2,6 @@ define([
   'createjs'
 ], function () {
   function Character(assets, pos) {
-    console.log(assets);
     var spriteSheet = new createjs.SpriteSheet({
       framerate: 30,
       "images": [assets],
