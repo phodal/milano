@@ -75,6 +75,8 @@ define([
   function createRunningGame() {
     runningScene = new RunningScene(stage, preload);
     var sceneContainer = runningScene.action();
+    sceneContainer.x = 0;
+    sceneContainer.y = stageHeight / 8;
     stageContainer.addChild(sceneContainer);
     isRunningGame = true;
   }
