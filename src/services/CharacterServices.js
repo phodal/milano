@@ -66,6 +66,7 @@ define([
       }
     },
     playAnimation: function (animation) {
+      this.grant.y = this.originGrantY;
       this.grant.gotoAndPlay(animation);
       this.isJumping = true;
       this.startJumpCount = true;
