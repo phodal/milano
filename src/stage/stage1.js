@@ -126,7 +126,9 @@ define([
       selectScene.finish();
 
       if (QuestionServices.getByType('stage1.getup')[0] === data) {
-        return gameOver(data);
+        return gameOver({
+          endText: '要什么自行车？'
+        });
       }
 
       createRunningGame();
