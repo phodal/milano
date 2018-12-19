@@ -1,17 +1,17 @@
 define([
   'src/constants/colors.js',
   'src/stage/stage1/ClockScene.js',
-  'src/stage/stage1/RunningScene.js',
+  'src/games/RunningGame.js',
   'src/scenes/SelectScene.js',
   'src/utils/EventBus.js',
   'src/services/QuestionServices.js',
   'src/services/DragServices.js',
   'src/scenes/DragOpenDoor.js',
   'createjs'
-], function (COLORS, ClockScene, RunningScene, SelectScene, EventBus, QuestionServices,
+], function (COLORS, ClockScene, RunningGame, SelectScene, EventBus, QuestionServices,
              DragServices, DragOpenDoor) {
   var stage, stageContainer, preload, stageWidth, stageHeight, dragBox, clockScene, selectScene;
-  var background, lastDragPoint = 0, offset = new createjs.Point(0, 0),  isRunningGame = false, runningScene;
+  var background, lastDragPoint = 0, offset = new createjs.Point(0, 0),  isRunningGame = false, runningGame;
   var isClockDone = false;
 
   var load = function () {
@@ -81,8 +81,8 @@ define([
   }
 
   function createRunningGame() {
-    runningScene = new RunningScene(stage, preload);
-    var sceneContainer = runningScene.action();
+    runningGame = new RunningGame(stage, preload);
+    var sceneContainer = runningGame.action();
     sceneContainer.x = 0;
     sceneContainer.y = stageHeight / 8;
     stageContainer.addChild(sceneContainer);
@@ -130,7 +130,7 @@ define([
       selectScene.tick(event);
     }
     if (isRunningGame) {
-      runningScene.tick(event);
+      runningGame.tick(event);
     }
     stage.update(event);
   }
