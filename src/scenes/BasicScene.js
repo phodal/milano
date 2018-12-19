@@ -10,9 +10,6 @@ define([
     var displayText = TextUtils.createSceneText(stage, scene);
     stage.addChild(displayText);
 
-    createjs.Tween.get(displayText)
-      .to({alpha: 1}, CONSTANTS.DEFAULT_TIMEOUT / 2, createjs.Ease.get(1))
-      .to({alpha: 0}, CONSTANTS.DEFAULT_TIMEOUT / 2 + 100, createjs.Ease.get(1));
     createjs.Ticker.on('tick', function (event) {
       stage.update();
     });
@@ -23,15 +20,11 @@ define([
     };
 
     AppStage.load().then(function () {
-      if (window.mConfig.debug) {
-        hasLoadNewStage = true;
-        startNewScene();
-      }
-    });
-    createjs.Tween.get().wait(CONSTANTS.DEFAULT_TIMEOUT).call(function () {
-      if (!hasLoadNewStage) {
-        startNewScene();
-      }
+      createjs.Tween.get(displayText)
+        .to({alpha: 0}, CONSTANTS.DEFAULT_TIMEOUT / 2 + 100, createjs.Ease.get(1))
+        .call(function () {
+          startNewScene();
+        })
     });
   };
 
