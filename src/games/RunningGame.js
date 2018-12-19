@@ -6,6 +6,8 @@ define([
   var stage, preload, sceneContainer, cloud1, cloud2, character, tree1, tree2, ground;
   var stageWidth, stageHeight, target, clockShape, timeContainer;
   var virtualTime = 50;
+  var rectWidth = 40;
+  var rectHeight = 12;
 
   function RunningGame(s, p) {
     stage = s;
@@ -77,8 +79,6 @@ define([
     timeContainer.y = stageHeight - 100 + Math.random() * 20;
 
     clockShape = new createjs.Shape();
-    var rectWidth = 40;
-    var rectHeight = 12;
     clockShape.graphics
       .beginFill(createjs.Graphics.getHSL(Math.random() * 360, 100, 50))
       .drawRoundRect(0, 0, rectWidth, rectHeight, 5);
