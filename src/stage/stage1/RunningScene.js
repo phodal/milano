@@ -45,6 +45,16 @@ define([
     sceneContainer.addChild(ground);
     character.addToStage(sceneContainer);
 
+    target = sceneContainer.addChild(new createjs.Shape());
+    target.graphics.beginFill("red").drawCircle(0, 0, 30);
+    target.x = stageWidth - 60;
+    target.y = stageHeight - 240;
+    target.addEventListener('click', function () {
+      character.playAnimation("jump");
+    });
+
+    sceneContainer.addChild(target);
+
     createClockLine();
   };
 
