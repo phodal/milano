@@ -19,13 +19,19 @@ define([
       AppStage.start();
     };
 
-    AppStage.load().then(function () {
-      createjs.Tween.get(displayText)
-        .to({alpha: 0}, CONSTANTS.DEFAULT_TIMEOUT / 2 + 100, createjs.Ease.get(1))
-        .call(function () {
-          startNewScene();
-        })
-    });
+    if (window.mConfig.debug) {
+      AppStage.load().then(function () {
+        startNewScene();
+      });
+    } else {
+      AppStage.load().then(function () {
+        createjs.Tween.get(displayText)
+          .to({alpha: 0}, CONSTANTS.DEFAULT_TIMEOUT / 2 + 100, createjs.Ease.get(1))
+          .call(function () {
+            startNewScene();
+          })
+      });
+    }
   };
 
   return {
