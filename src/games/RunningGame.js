@@ -4,7 +4,7 @@ define([
   'createjs',
 ], function (CharacterServices, Colors) {
   var stage, preload, sceneContainer, cloud1, cloud2, character, tree1, tree2, ground;
-  var stageWidth, stageHeight, jumpButton, clockShape, timeContainer;
+  var stageWidth, stageHeight, jumpButton, clockShape, timeContainer, insideCircle;
   var virtualTime = 50;
   var rectWidth = 40;
   var rectHeight = 12;
@@ -18,6 +18,30 @@ define([
     stageHeight = stage.canvas.height;
 
     this.init();
+  }
+
+  function createActionButtons() {
+    jumpButton = sceneContainer.addChild(new createjs.Shape());
+    jumpButton.graphics
+      .setStrokeStyle(3)
+      .beginStroke("#ffffff")
+      .beginFill("red").drawCircle(0, 0, 24);
+    jumpButton.alpha = 0.3;
+    jumpButton.x = stageWidth - 40;
+    jumpButton.y = stageHeight - 40;
+    jumpButton.addEventListener('click', function () {
+      character.playAnimation('jump');
+    });
+
+    sceneContainer.addChild(jumpButton);
+
+    insideCircle = sceneContainer.addChild(new createjs.Shape());
+    insideCircle.graphics
+      .beginFill("#ffffff").drawCircle(0, 0, 8);
+    insideCircle.alpha = 1;
+    insideCircle.x = stageWidth - 40;
+    insideCircle.y = stageHeight - 40;
+    sceneContainer.addChild(insideCircle);
   }
 
   RunningGame.prototype.init = function () {
@@ -50,15 +74,7 @@ define([
     sceneContainer.addChild(ground);
     character.addToStage(sceneContainer);
 
-    jumpButton = sceneContainer.addChild(new createjs.Shape());
-    jumpButton.graphics.beginFill("red").drawCircle(0, 0, 30);
-    jumpButton.x = stageWidth - 60;
-    jumpButton.y = stageHeight - 240;
-    jumpButton.addEventListener('click', function () {
-      character.playAnimation('jump');
-    });
-
-    sceneContainer.addChild(jumpButton);
+    createActionButtons();
 
     createClockLine();
   };
@@ -115,6 +131,7 @@ define([
       character.setX((position >= stageWidth + character.getWidth()) ? -character.getWidth() : position);
     }
 
+    // TODO：碰撞检测
     timeContainer.x = timeContainer.x - 6;
     var pt = character.getObj().localToLocal(100, 120, timeContainer);
     var hitTest = timeContainer.hitTest(pt.x, pt.y);
