@@ -23,10 +23,10 @@ define([
   function createActionButtons() {
     jumpButton = sceneContainer.addChild(new createjs.Shape());
     jumpButton.graphics
-      .setStrokeStyle(3)
-      .beginStroke("#ffffff")
-      .beginFill("red").drawCircle(0, 0, 24);
-    jumpButton.alpha = 0.3;
+      .setStrokeStyle(1)
+      .beginStroke("red")
+      .beginFill("#ffffff").drawCircle(0, 0, 24);
+    jumpButton.alpha = 0.4;
     jumpButton.x = stageWidth - 40;
     jumpButton.y = stageHeight - 40;
     jumpButton.addEventListener('click', function () {
@@ -35,12 +35,12 @@ define([
 
     sceneContainer.addChild(jumpButton);
 
-    insideCircle = sceneContainer.addChild(new createjs.Shape());
-    insideCircle.graphics
-      .beginFill("#ffffff").drawCircle(0, 0, 8);
+    insideCircle = new createjs.Text("↑", "32px monospace", "#ffffff");
     insideCircle.alpha = 1;
-    insideCircle.x = stageWidth - 40;
+    var bounds = insideCircle.getBounds();
+    insideCircle.x = stageWidth - 40 - bounds.width / 2;
     insideCircle.y = stageHeight - 40;
+    insideCircle.textBaseline = "middle";
     sceneContainer.addChild(insideCircle);
   }
 
@@ -97,9 +97,9 @@ define([
     clockShape = new createjs.Shape();
     clockShape.graphics
       .beginFill(createjs.Graphics.getHSL(Math.random() * 360, 100, 50))
-      .drawRoundRect(0, 0, rectWidth, rectHeight, 5);
+      .drawCircle(0, 0, rectHeight / 2);
     clockShape.x = 0;
-    clockShape.y = 0;
+    clockShape.y = rectHeight / 2;
 
     var shapeText = new createjs.Text("7:" + virtualTime, "12px monospace", Colors.KEYBOARD);
     shapeText.x = rectWidth / 2;
