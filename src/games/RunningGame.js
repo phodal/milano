@@ -4,7 +4,7 @@ define([
   'createjs',
 ], function (CharacterServices, Colors) {
   var stage, preload, sceneContainer, cloud1, cloud2, character, tree1, tree2, ground;
-  var stageWidth, stageHeight, target, clockShape, timeContainer;
+  var stageWidth, stageHeight, jumpButton, clockShape, timeContainer;
   var virtualTime = 50;
   var rectWidth = 40;
   var rectHeight = 12;
@@ -50,15 +50,15 @@ define([
     sceneContainer.addChild(ground);
     character.addToStage(sceneContainer);
 
-    target = sceneContainer.addChild(new createjs.Shape());
-    target.graphics.beginFill("red").drawCircle(0, 0, 30);
-    target.x = stageWidth - 60;
-    target.y = stageHeight - 240;
-    target.addEventListener('click', function () {
-      character.playAnimation("jump");
+    jumpButton = sceneContainer.addChild(new createjs.Shape());
+    jumpButton.graphics.beginFill("red").drawCircle(0, 0, 30);
+    jumpButton.x = stageWidth - 60;
+    jumpButton.y = stageHeight - 240;
+    jumpButton.addEventListener('click', function () {
+      character.playAnimation('jump');
     });
 
-    sceneContainer.addChild(target);
+    sceneContainer.addChild(jumpButton);
 
     createClockLine();
   };
