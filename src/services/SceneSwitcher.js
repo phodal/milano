@@ -1,6 +1,6 @@
 define([
   'require',
-  'src/scenes/BasicScene.js',
+  'src/scenes/TransitionScene.js',
   'src/constants/scenes.js',
   'src/stage/stage1.js',
   'src/stage/stage2.js',
@@ -8,12 +8,12 @@ define([
   'src/stage/stage4.js',
   'src/stage/stage5.js',
   'createjs'
-], function (require, BasicScene, SCENES) {
+], function (require, TransitionScene, SCENES) {
   var currentIndex;
 
   function goto(scene_index) {
     currentIndex = scene_index;
-    BasicScene.initialize(SCENES[scene_index], require('src/stage/stage' + (scene_index + 1) + '.js'));
+    TransitionScene.initialize(SCENES[scene_index], require('src/stage/stage' + (scene_index + 1) + '.js'));
   }
 
   function nextScene() {

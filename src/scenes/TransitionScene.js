@@ -4,7 +4,6 @@ define([
   'src/utils/TextUtils.js',
   'createjs'
 ], function (Colors, CONSTANTS, TextUtils) {
-  var hasLoadNewStage = false;
   var initialize = function (scene, AppStage) {
     var stage = new createjs.Stage("demoCanvas");
     var displayText = TextUtils.createSceneText(stage, scene);
