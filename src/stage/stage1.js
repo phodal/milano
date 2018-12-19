@@ -119,11 +119,15 @@ define([
     });
 
     EventBus.subscribe('select.scene.done', function (data) {
-      console.log(data);
+      console.log(QuestionServices.getByType('stage1.getup')[0], data);
       createjs.Tween.get(background).to({alpha: 1}, 1000).call(function () {
         createjs.Tween.get(background).to({alpha: 0.1}, 3000);
       });
       selectScene.finish();
+
+      if (QuestionServices.getByType('stage1.getup')[0] === data) {
+        return gameOver(data);
+      }
 
       createRunningGame();
     });
@@ -147,6 +151,11 @@ define([
       stage.removeAllChildren();
       SceneSwitcher.nextScene();
     });
+  };
+
+  var gameOver = function (data) {
+    stage.removeAllChildren();
+    SceneSwitcher.gameOver(data);
   };
 
   return {
