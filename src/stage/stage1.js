@@ -91,6 +91,9 @@ define([
     var door = new DragOpenDoor(stage);
     var doorContainer = door.action();
     stageContainer.addChild(doorContainer);
+    door.onFinish(function () {
+      finish();
+    })
   }
 
   var start = function () {

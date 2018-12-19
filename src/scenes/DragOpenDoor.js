@@ -1,7 +1,7 @@
 define([
   'createjs'
 ], function () {
-  var stageWidth, stageHeight, sceneContainer, staticShape, dragTarget, stage;
+  var stageWidth, stageHeight, sceneContainer, staticShape, dragTarget, stage, finishCallback;
   var lastDragPoint = 0;
   var offset = new createjs.Point(0, 0);
   var circleRadius = 30;
@@ -12,7 +12,9 @@ define([
 
     stageWidth = stage.canvas.width;
     stageHeight = stage.canvas.height;
+    finishCallback = function () {
 
+    };
     this.init();
   }
 
@@ -41,10 +43,14 @@ define([
     }
     offset.x = event.stageX - lastDragPoint;
     var newX = dragTarget.x + offset.x;
-    if (newX < circleRadius || Math.abs(newX) > stageWidth - circleRadius) {
+    if (newX < circleRadius) {
       return;
     }
-    console.log(newX);
+    if (Math.abs(newX) > stageWidth - circleRadius * 2) {
+      DragOpenDoor.prototype.finish();
+      finishCallback();
+      return;
+    }
     dragTarget.x = newX;
     lastDragPoint = event.stageX;
   }
@@ -59,6 +65,14 @@ define([
 
   DragOpenDoor.prototype.action = function () {
     return sceneContainer;
+  };
+
+  DragOpenDoor.prototype.finish = function () {
+    sceneContainer.removeAllChildren();
+  };
+
+  DragOpenDoor.prototype.onFinish = function (callback) {
+    finishCallback = callback;
   };
 
   return DragOpenDoor;
