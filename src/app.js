@@ -11,14 +11,32 @@ define([
   };
 
   function createStartMenu(stage) {
-    var startText = new createjs.Text("Start Game", "32px monospace", Colors.MENU_COLOR);
-    var bounds = startText.getBounds();
-    startText.x = stage.canvas.width / 2 - bounds.width / 2;
-    startText.y = stage.canvas.height / 2 -  bounds.height / 2;
-    startText.textBaseline = "middle";
-    startText.shadow = new createjs.Shadow(Colors.MENU_SHADOW_COLOR, 2, 2, 50);
-    startText.addEventListener("click", startGame);
-    return startText;
+    var background = new createjs.Shape();
+    background.name = "background";
+    background.graphics
+      .setStrokeStyle(1)
+      .beginStroke(Colors.MENU_COLOR)
+      .beginFill('#ffffff')
+      .drawRoundRect(0, 0, 300, 60, 5);
+
+    var label = new createjs.Text("Start Game", "32px monospace", Colors.MENU_COLOR);
+    label.name = "label";
+    label.textAlign = "center";
+    label.textBaseline = "middle";
+    label.x = 300 / 2;
+    label.y = 60 / 2;
+
+    var button = new createjs.Container();
+    button.name = "button";
+    button.x = stage.canvas.width / 2 - 300 / 2;
+    button.y = stage.canvas.height / 2 - 60 / 2;
+    button.addChild(background, label);
+    stage.addChild(button);
+
+    background.onClick = label.onClick = startGame;
+    button.onClick = startGame;
+
+    button.addEventListener('click', startGame);
   }
 
   var initApp = function () {
@@ -27,14 +45,16 @@ define([
     stage.canvas.width = window.innerWidth;
     stage.canvas.height = window.innerHeight;
 
-    var text = createStartMenu(stage);
-
-    stage.addChild(text);
+    createStartMenu(stage);
     stage.update();
 
-    if (window.mConfig.debug) {
-      createjs.Tween.get().wait(200).call(startGame);
-    }
+    // if (window.mConfig.debug) {
+    //   createjs.Tween.get().wait(200).call(startGame);
+    // }
+
+    createjs.Ticker.on('tick', function () {
+      stage.update();
+    });
   };
 
   return {
