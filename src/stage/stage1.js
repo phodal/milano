@@ -6,9 +6,10 @@ define([
   'src/utils/EventBus.js',
   'src/services/QuestionServices.js',
   'src/services/DragServices.js',
+  'src/scenes/DragOpenDoor.js',
   'createjs'
 ], function (COLORS, ClockScene, RunningScene, SelectScene, EventBus, QuestionServices,
-             DragServices) {
+             DragServices, DragOpenDoor) {
   var stage, stageContainer, preload, stageWidth, stageHeight, dragBox, clockScene, selectScene;
   var background, lastDragPoint = 0, offset = new createjs.Point(0, 0),  isRunningGame = false, runningScene;
   var isClockDone = false;
@@ -86,6 +87,10 @@ define([
     sceneContainer.y = stageHeight / 8;
     stageContainer.addChild(sceneContainer);
     isRunningGame = true;
+
+    var door = new DragOpenDoor(stage);
+    var doorContainer = door.action();
+    stageContainer.addChild(doorContainer);
   }
 
   var start = function () {
