@@ -19,8 +19,10 @@ define([
 
   RunningScene.prototype.init = function () {
     var bg2 = new createjs.Shape();
-    bg2.graphics.beginFill('#000000').drawRect(0, stageHeight / 2, stageWidth, stageHeight / 2);
-    bg2.graphics.alpha = 1;
+    bg2.graphics
+      .beginLinearGradientFill(["rgba(255,198,255,1)", "rgba(0,255,0,1)"], [0, 1], 0, 0, 0, stageHeight * 3)
+      .drawRoundRect(0, stageHeight / 2, stageWidth, stageHeight / 2, 0);
+
     sceneContainer.addChild(bg2);
 
     var groundImg = preload.getResult("ground");
@@ -111,7 +113,7 @@ define([
       console.log(hitTest);
     }
 
-    if(timeContainer.x <= 0) {
+    if (timeContainer.x <= 0) {
       createClockLine();
     }
   };
