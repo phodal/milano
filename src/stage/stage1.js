@@ -139,8 +139,10 @@ define([
   }
 
   var finish = function () {
-    stage.removeAllChildren();
-    SceneSwitcher.nextScene();
+    createjs.Tween.get(stageContainer).to({alpha: 0.5}, 1000).call(function () {
+      stage.removeAllChildren();
+      SceneSwitcher.nextScene();
+    });
   };
 
   return {
