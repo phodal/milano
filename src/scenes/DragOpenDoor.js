@@ -1,7 +1,7 @@
 define([
   'createjs'
 ], function () {
-  var stageWidth, stageHeight, sceneContainer, dragTarget, stage;
+  var stageWidth, stageHeight, sceneContainer, staticShape, dragTarget, stage;
   var lastDragPoint = 0;
   var offset = new createjs.Point(0, 0);
   var circleRadius = 30;
@@ -17,7 +17,13 @@ define([
   }
 
   DragOpenDoor.prototype.init = function () {
+    staticShape = sceneContainer.addChild(new createjs.Shape());
+    staticShape.graphics.beginFill("blue")
+      .drawRect(0, stageHeight + 240 - circleRadius - 5, stageWidth, circleRadius * 2 + 10);
+    sceneContainer.addChild(staticShape);
+
     dragTarget = sceneContainer.addChild(new createjs.Shape());
+
     dragTarget.graphics.beginFill("red").drawCircle(0, 0, circleRadius);
     dragTarget.x = circleRadius;
     dragTarget.y = stageHeight + 240;
