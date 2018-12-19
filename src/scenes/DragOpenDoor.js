@@ -22,8 +22,11 @@ define([
 
   DragOpenDoor.prototype.init = function () {
     staticShape = sceneContainer.addChild(new createjs.Shape());
-    staticShape.graphics.beginFill("blue")
+    staticShape.graphics
+      .beginLinearGradientFill(["rgba(255,198,255,1)", "rgba(0,255,0,1)"], [0, 1], 0, 0, stageWidth * 3, 0)
       .drawRect(0, stageHeight + 240 - circleRadius - 5, stageWidth, circleRadius * 2 + 10);
+    staticShape.alpha = 0.8;
+
     sceneContainer.addChild(staticShape);
 
     dragTarget = sceneContainer.addChild(new createjs.Shape());
@@ -52,7 +55,6 @@ define([
       if (!isAlreadyFinish) {
         isAlreadyFinish = true;
         DragOpenDoor.prototype.finish();
-        finishCallback();
       }
       return;
     }
@@ -81,7 +83,12 @@ define([
   };
 
   DragOpenDoor.prototype.finish = function () {
-    sceneContainer.removeAllChildren();
+    createjs.Tween.get(sceneContainer)
+      .to({alpha: 0}, 500, createjs.Ease.get(1))
+      .call(function () {
+        sceneContainer.removeAllChildren();
+        finishCallback();
+      })
   };
 
   DragOpenDoor.prototype.onFinish = function (callback) {
