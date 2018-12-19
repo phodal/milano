@@ -5,6 +5,7 @@ define([
 ], function (CharacterServices, Colors) {
   var stage, preload, sceneContainer, cloud1, cloud2, character, tree1, tree2, ground;
   var stageWidth, stageHeight, target, clockShape, timeContainer;
+  var virtualTime = 50;
 
   function RunningGame(s, p) {
     stage = s;
@@ -61,26 +62,34 @@ define([
   };
 
   function createClockLine() {
+    virtualTime++;
     if (timeContainer) {
       sceneContainer.removeChild(timeContainer);
+    }
+
+    if (virtualTime > 60) {
+      return;
     }
 
     timeContainer = new createjs.Container();
     timeContainer.name = "button";
     timeContainer.x = stageWidth;
-    timeContainer.y = stageHeight - 100 - Math.random() * 50;
+    timeContainer.y = stageHeight - 100 + Math.random() * 20;
 
     clockShape = new createjs.Shape();
+    var rectWidth = 40;
+    var rectHeight = 12;
     clockShape.graphics
       .beginFill(createjs.Graphics.getHSL(Math.random() * 360, 100, 50))
-      .drawRoundRect(0, 0, 60, 20, 5);
+      .drawRoundRect(0, 0, rectWidth, rectHeight, 5);
     clockShape.x = 0;
     clockShape.y = 0;
 
-    var shapeText = new createjs.Text("7:50", "14px monospace", Colors.KEYBOARD);
-    shapeText.x = 15;
-    shapeText.y = 15;
-    shapeText.textBaseline = "alphabetic";
+    var shapeText = new createjs.Text("7:" + virtualTime, "12px monospace", Colors.KEYBOARD);
+    shapeText.x = rectWidth / 2;
+    shapeText.y = rectHeight / 2;
+    shapeText.textAlign = "center";
+    shapeText.textBaseline = "middle";
 
     timeContainer.addChild(clockShape, shapeText);
     sceneContainer.addChild(timeContainer);
@@ -102,7 +111,7 @@ define([
     }
 
     if (character) {
-      var position = character.getX() + 50 * deltaS;
+      var position = character.getX() + 15 * deltaS;
       character.setX((position >= stageWidth + character.getWidth()) ? -character.getWidth() : position);
     }
 
