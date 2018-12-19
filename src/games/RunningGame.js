@@ -112,6 +112,7 @@ define([
   }
 
   RunningGame.prototype.tick = function (event) {
+    character.tick();
     var deltaS = event.delta / 1000;
     tree1.x = (tree1.x - deltaS * 30);
     if (tree1.x + tree1.image.width * tree1.scaleX <= 0) {

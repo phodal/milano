@@ -15,11 +15,14 @@ define([
     this.grant = new createjs.Sprite(spriteSheet, "run");
     this.grant.scaleX = 0.3;
     this.grant.scaleY = 0.3;
-    this.grant.y = pos.y;
+    this.originGrantY = this.grant.y = pos.y;
+    this.isJumping = false;
+    this.startJumpCount = false;
+    this.jumpCount = 0;
   }
 
   Character.prototype = {
-    getObj: function() {
+    getObj: function () {
       return this.grant;
     },
     addToStage: function (stage) {
@@ -41,13 +44,31 @@ define([
       return this.grant.y;
     },
     setY: function (val) {
-      this.grant.y = val;
+      console.log(this.originGrantY);
+      this.originGrantY = this.grant.y = val;
     },
     setX: function (val) {
       this.grant.x = val;
     },
+    tick: function () {
+      if (this.startJumpCount) {
+        this.jumpCount++;
+      }
+
+      if (!this.isJumping && this.jumpCount >= 5) {
+        this.grant.y = this.originGrantY;
+        this.startJumpCount = false;
+        this.jumpCount = 0;
+      } else if (this.isJumping) {
+        this.grant.y = this.grant.y - 10;
+        this.isJumping = false;
+        this.jumpCount = 0;
+      }
+    },
     playAnimation: function (animation) {
       this.grant.gotoAndPlay(animation);
+      this.isJumping = true;
+      this.startJumpCount = true;
     }
   };
 
