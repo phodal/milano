@@ -5,6 +5,7 @@ define([
   var lastDragPoint = 0;
   var offset = new createjs.Point(0, 0);
   var circleRadius = 30;
+  var isAlreadyFinish = false;
 
   function DragOpenDoor(s) {
     stage = s;
@@ -47,8 +48,11 @@ define([
       return;
     }
     if (Math.abs(newX) > stageWidth - circleRadius * 2) {
-      DragOpenDoor.prototype.finish();
-      finishCallback();
+      if (!isAlreadyFinish) {
+        isAlreadyFinish = true;
+        DragOpenDoor.prototype.finish();
+        finishCallback();
+      }
       return;
     }
     dragTarget.x = newX;
