@@ -13,6 +13,7 @@ define([
   var stage, stageContainer, preload, stageWidth, stageHeight, dragBox, clockScene, selectScene;
   var background, lastDragPoint = 0, offset = new createjs.Point(0, 0),  isRunningGame = false, runningGame;
   var isClockDone = false;
+  var dragRatio = 0.8;
 
   var load = function () {
     background = new createjs.Shape();
@@ -51,7 +52,7 @@ define([
     offset.y = event.stageY - lastDragPoint;
     var newStageY = stageContainer.y + offset.y;
     // 限制拖拽的高度
-    if (newStageY > 0 || Math.abs(newStageY) > stage.canvas.height * 0.8) {
+    if (newStageY > 0 || Math.abs(newStageY) > stage.canvas.height * dragRatio) {
       return;
     }
     stageContainer.y = newStageY;
@@ -91,6 +92,9 @@ define([
     var door = new DragOpenDoor(stage);
     var doorContainer = door.action();
     stageContainer.addChild(doorContainer);
+    door.hadDrag(function () {
+      dragRatio = 1.6;
+    });
     door.onFinish(function () {
       finish();
     })
