@@ -12,16 +12,18 @@ define([
 ], function (COLORS, ClockScene, RunningGame, SelectScene, ArtScene, EventBus, QuestionServices,
              DragServices, DragOpenDoor) {
   var stage, stageContainer, preload, stageWidth, stageHeight, dragBox, clockScene, selectScene, artScene;
-  var background, lastDragPoint = 0, offset = new createjs.Point(0, 0),  isRunningGame = false, runningGame;
+  var background, lastDragPoint = 0, offset = new createjs.Point(0, 0), isRunningGame = false, runningGame;
   var clockContainer;
   var isClockDone = false;
   var dragRatio = 0.8;
 
-  var load = function () {
+  function Stage1() {
+
+  }
+
+  Stage1.prototype.load = function () {
     background = new createjs.Shape();
     stage = new createjs.Stage('demoCanvas');
-    window.mConfig.currentStage = stage;
-
     preload = new createjs.LoadQueue();
     createjs.Touch.enable(stage);
     createjs.Sound.alternateExtensions = ['mp3'];
@@ -113,7 +115,7 @@ define([
     artScene = new ArtScene(stage);
   }
 
-  var start = function () {
+  Stage1.prototype.start = function () {
     var sleepImg = preload.getResult("sleep");
     background.graphics.beginBitmapFill(sleepImg, 'no-repeat', null)
       .drawRect(0, 0, stageWidth, stageHeight);
@@ -165,7 +167,7 @@ define([
     stage.update(event);
   }
 
-  var finish = function () {
+  Stage1.prototype.finish = function () {
     createjs.Tween.get(stageContainer).to({alpha: 0.5}, 1000).call(function () {
       stage.removeAllChildren();
       SceneDispatcher.nextScene();
@@ -180,9 +182,5 @@ define([
     SceneDispatcher.gameOver(data);
   };
 
-  return {
-    load: load,
-    start: start,
-    finish: finish
-  };
+  return Stage1;
 });

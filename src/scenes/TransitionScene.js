@@ -8,22 +8,30 @@ define([
     var stage = new createjs.Stage("demoCanvas");
     var displayText = TextUtils.createSceneText(stage, scene);
     stage.addChild(displayText);
+    var appStage = new AppStage();
+    window.currentStage = appStage;
 
     createjs.Ticker.on('tick', function (event) {
       stage.update();
     });
 
     var startNewScene = function () {
-      window.mConfig.currentStage.removeAllChildren();
-      AppStage.start();
+      if (!window.lastStage) {
+        appStage.start();
+        return;
+      }
+
+      window.lastStage.finish();
+      appStage.start();
+      window.lastStage = appStage;
     };
 
     if (window.mConfig.debug) {
-      AppStage.load().then(function () {
+      appStage.load().then(function () {
         startNewScene();
       });
     } else {
-      AppStage.load().then(function () {
+      appStage.load().then(function () {
         createjs.Tween.get(displayText)
           .to({alpha: 0}, CONSTANTS.DEFAULT_TIMEOUT / 2 + 100, createjs.Ease.get(1))
           .call(function () {
