@@ -1,6 +1,6 @@
 define(['createjs'], function () {
   var isMouseDown, oldPosition, currentShape, ctx, selectedColor, oldMidX, oldMidY, oldX, oldY;
-  var firstLoad, txt, stage, drawingCanvas, title, options, sceneContainer;
+  var firstLoad, txt, stage, drawingCanvas, title, options, sceneContainer, isEnableDraw = false;
 
   function ArtScene(s, o) {
     stage = s;
@@ -65,6 +65,14 @@ define(['createjs'], function () {
     stage.update();
 
     return sceneContainer;
+  };
+
+  ArtScene.prototype.isEnableDraw = function () {
+    return isEnableDraw;
+  };
+
+  ArtScene.prototype.enableDraw = function (val) {
+    isEnableDraw = val;
   };
 
   ArtScene.prototype.finish = function () {

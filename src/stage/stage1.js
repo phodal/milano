@@ -46,6 +46,10 @@ define([
   };
 
   function startDrag(event) {
+    if (artScene && artScene.isEnableDraw()) {
+      artScene.enableDraw(true);
+      return;
+    }
     if (lastDragPoint === 0) {
       lastDragPoint = event.stageY;
       return;
@@ -110,6 +114,7 @@ define([
     artScene = new ArtScene(stage, options);
     var artContainer = artScene.action();
     stage.addChild(artContainer);
+    artScene.enableDraw(true);
   }
 
   var start = function () {
