@@ -55,6 +55,8 @@ define(['createjs'], function () {
     g.beginStroke(selectedColor);
     sceneContainer.addChild(shape);
     currentShape = shape;
+
+    sceneContainer.setChildIndex(stopButton, sceneContainer.getNumChildren() - 1);
   }
 
   function handleMouseUp() {
@@ -69,12 +71,11 @@ define(['createjs'], function () {
     stage.update();
 
     stopButton = new createjs.Shape(new createjs.Graphics()
-      .beginFill('#dddddd')
+      .beginFill('#ffffff')
       .drawCircle(30, 30, 15));
     stopButton.addEventListener('click', function (event) {
       that.finish();
     });
-
     sceneContainer.addChild(stopButton);
     return sceneContainer;
   };
