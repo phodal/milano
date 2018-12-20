@@ -1,6 +1,6 @@
 define(['createjs'], function () {
   var isMouseDown, oldPosition, currentShape, selectedColor, oldMidX, oldMidY, oldX, oldY;
-  var firstLoad, txt, stage, sceneContainer, stopButton, shape, isEnableDraw = false;
+  var firstLoad, txt, stage, sceneContainer, stopButton, clearButton, shape, isEnableDraw = false;
 
   function ArtScene(s) {
     stage = s;
@@ -56,7 +56,8 @@ define(['createjs'], function () {
     sceneContainer.addChild(shape);
     currentShape = shape;
 
-    sceneContainer.setChildIndex(stopButton, sceneContainer.getNumChildren() - 1);
+    sceneContainer.setChildIndex(stopButton, sceneContainer.numChildren - 1);
+    sceneContainer.setChildIndex(clearButton, sceneContainer.numChildren - 2);
   }
 
   function handleMouseUp() {
@@ -76,7 +77,16 @@ define(['createjs'], function () {
     stopButton.addEventListener('click', function (event) {
       that.finish();
     });
+
+    clearButton = new createjs.Shape(new createjs.Graphics()
+      .beginFill('#000000')
+      .drawRect(80, 15, 30, 30));
+    clearButton.addEventListener('click', function (event) {
+
+    });
+
     sceneContainer.addChild(stopButton);
+    sceneContainer.addChild(clearButton);
     return sceneContainer;
   };
 
