@@ -98,6 +98,9 @@ define([
     stageContainer.addChild(doorContainer);
     door.hadDrag(function () {
       artScene.enableDraw(true);
+      var artContainer = artScene.action();
+      stage.addChild(artContainer);
+
       dragRatio = 1.6;
     });
     door.onFinish(function () {
@@ -105,8 +108,6 @@ define([
     });
 
     artScene = new ArtScene(stage);
-    var artContainer = artScene.action();
-    stage.addChild(artContainer);
   }
 
   var start = function () {
