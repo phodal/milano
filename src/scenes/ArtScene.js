@@ -35,6 +35,9 @@ define(['createjs'], function () {
   };
 
   function handleMouseDown() {
+    if (!isEnableDraw) {
+      return;
+    }
     isMouseDown = true;
     if (firstLoad) {
       stage.removeChild(txt);

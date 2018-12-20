@@ -47,7 +47,6 @@ define([
 
   function startDrag(event) {
     if (artScene && artScene.isEnableDraw()) {
-      artScene.enableDraw(true);
       return;
     }
     if (lastDragPoint === 0) {
@@ -98,6 +97,7 @@ define([
     var doorContainer = door.action();
     stageContainer.addChild(doorContainer);
     door.hadDrag(function () {
+      artScene.enableDraw(true);
       dragRatio = 1.6;
     });
     door.onFinish(function () {
@@ -114,7 +114,6 @@ define([
     artScene = new ArtScene(stage, options);
     var artContainer = artScene.action();
     stage.addChild(artContainer);
-    artScene.enableDraw(true);
   }
 
   var start = function () {
@@ -162,11 +161,11 @@ define([
     if (isRunningGame) {
       runningGame.tick(event);
     }
-    stage.update(event);
-
     if (artScene != null) {
       artScene.tick(event);
     }
+
+    stage.update(event);
   }
 
   var finish = function () {
