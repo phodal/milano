@@ -48,9 +48,9 @@ define([
     createStartMenu(stage);
     stage.update();
 
-    // if (window.mConfig.debug) {
-    //   createjs.Tween.get().wait(200).call(startGame);
-    // }
+    if (window.mConfig.debug) {
+      createjs.Tween.get().wait(200).call(startGame);
+    }
 
     createjs.Ticker.on('tick', function () {
       stage.update();

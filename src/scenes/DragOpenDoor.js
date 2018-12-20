@@ -28,7 +28,6 @@ define([
     staticShape.alpha = 0.8;
 
     staticShape.addEventListener('click', function (event) {
-      console.log(event);
       dragTarget.x = event.stageX;
     });
 

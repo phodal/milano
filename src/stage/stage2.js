@@ -8,6 +8,7 @@ define([
     ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
     ['Z', 'X', 'C', 'V', 'B', 'N', 'M', '删除', '确认']
   ];
+  var tipCount = 0;
 
   var load = function () {
     stage = new createjs.Stage('demoCanvas');
@@ -27,14 +28,19 @@ define([
 
   var handleKeyboardInput = function (event) {
     var text = event.currentTarget.children[1].text;
+    var boundWidth = 0;
+    if (typingValue.getBounds()) {
+      boundWidth = typingValue.getBounds().width;
+    }
+
     if (text === '删除') {
       keyboardValues.pop();
-      typingValue.x = typingValue.x + keyboardFontSize / 4;
+      typingValue.x = (stage.canvas.width - boundWidth) / 2;
     } else if (text === '确认') {
       finish();
     } else {
       keyboardValues.push(text);
-      typingValue.x = typingValue.x - keyboardFontSize / 4;
+      typingValue.x = (stage.canvas.width - boundWidth) / 2;
     }
     typingValue.text = keyboardValues.join('');
     stage.update();
@@ -84,11 +90,29 @@ define([
     typingValue.textBaseline = 'middle';
 
     stage.addChild(typingValue);
+    stage.update();
 
     createKeyboards();
+
+    var tipText = new createjs.Text("_", "24px monospace", COLORS.KEYBOARD_DELETE);
+    tipText.x = typingValue.x;
+    tipText.y = typingValue.y;
+    tipText.textBaseline = 'middle';
+
+    stage.addChild(tipText);
     stage.update();
 
     createjs.Ticker.on('tick', function (event) {
+      tipCount++;
+      if (tipCount >= 8 && typingValue.getBounds()) {
+        tipText.x = typingValue.x + typingValue.getBounds().width;
+        if (tipText.text === "_") {
+          tipText.text = "";
+        } else {
+          tipText.text = "_";
+        }
+        tipCount = 0;
+      }
       stage.update();
     });
   };
