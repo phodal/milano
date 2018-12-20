@@ -166,7 +166,7 @@ define([
   var finish = function () {
     createjs.Tween.get(stageContainer).to({alpha: 0.5}, 1000).call(function () {
       stage.removeAllChildren();
-      SceneSwitcher.nextScene();
+      SceneDispatcher.nextScene();
     });
   };
 
@@ -175,7 +175,7 @@ define([
     dragBox.removeEventListener('pressup');
     clockContainer.removeEventListener('click');
     stage.removeAllChildren();
-    SceneSwitcher.gameOver(data);
+    SceneDispatcher.gameOver(data);
   };
 
   return {

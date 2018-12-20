@@ -7,7 +7,7 @@ define([
   var startGame = function () {
     stage.removeAllChildren();
     var firstScene = 0;
-    SceneSwitcher.goto(firstScene);
+    SceneDispatcher.goto(firstScene);
   };
 
   function createStartMenu(stage) {

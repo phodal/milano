@@ -119,7 +119,7 @@ define([
 
   var finish = function () {
     stage.removeAllChildren();
-    SceneSwitcher.nextScene();
+    SceneDispatcher.nextScene();
   };
 
   return {

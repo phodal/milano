@@ -15,14 +15,14 @@ require.config({
 });
 
 require([
-  'src/services/SceneSwitcher.js',
+  'src/services/SceneDispatcher.js',
   'src/app.js'
-], function (SceneSwitcher, App) {
+], function (SceneDispatcher, App) {
   document.getElementById("loading").remove();
   window.mConfig = {
     debug: window.location.hostname === 'localhost'
   };
 
-  window.SceneSwitcher = SceneSwitcher;
+  window.SceneDispatcher = SceneDispatcher;
   App.initApp();
 });
