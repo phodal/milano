@@ -104,14 +104,7 @@ define([
       finish();
     });
 
-    var options = {
-      x: 0,
-      y: doorContainer.y + doorContainer.height,
-      height: 400,
-      width: stageWidth
-    };
-
-    artScene = new ArtScene(stage, options);
+    artScene = new ArtScene(stage);
     var artContainer = artScene.action();
     stage.addChild(artContainer);
   }

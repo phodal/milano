@@ -1,10 +1,9 @@
 define(['createjs'], function () {
-  var isMouseDown, oldPosition, currentShape, ctx, selectedColor, oldMidX, oldMidY, oldX, oldY;
-  var firstLoad, txt, stage, drawingCanvas, title, options, sceneContainer, isEnableDraw = false;
+  var isMouseDown, oldPosition, currentShape, selectedColor, oldMidX, oldMidY, oldX, oldY;
+  var firstLoad, txt, stage, sceneContainer, isEnableDraw = false;
 
-  function ArtScene(s, o) {
+  function ArtScene(s) {
     stage = s;
-    options = o;
     stage.enableDOMEvents(true);
     sceneContainer = new createjs.Container();
     oldPosition = new createjs.Point(stage.mouseX, stage.mouseY);
