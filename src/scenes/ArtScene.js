@@ -71,5 +71,7 @@ define(['createjs'], function () {
 
   ArtScene.prototype.finish = function () {
 
-  }
+  };
+
+  return ArtScene;
 });

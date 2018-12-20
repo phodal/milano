@@ -3,12 +3,13 @@ define([
   'src/stage/stage1/ClockScene.js',
   'src/games/RunningGame.js',
   'src/scenes/SelectScene.js',
+  'src/scenes/ArtScene.js',
   'src/utils/EventBus.js',
   'src/services/QuestionServices.js',
   'src/services/DragServices.js',
   'src/scenes/DragOpenDoor.js',
   'createjs'
-], function (COLORS, ClockScene, RunningGame, SelectScene, EventBus, QuestionServices,
+], function (COLORS, ClockScene, RunningGame, SelectScene, ArtScene, EventBus, QuestionServices,
              DragServices, DragOpenDoor) {
   var stage, stageContainer, preload, stageWidth, stageHeight, dragBox, clockScene, selectScene;
   var background, lastDragPoint = 0, offset = new createjs.Point(0, 0),  isRunningGame = false, runningGame;
@@ -97,7 +98,17 @@ define([
     });
     door.onFinish(function () {
       finish();
-    })
+    });
+
+    var options = {
+      x: doorContainer.x + doorContainer.width,
+      y: doorContainer.y + doorContainer.height,
+      height: 400,
+      width: stageWidth
+    };
+
+    var artScene = new ArtScene(stage, options);
+    artScene.action();
   }
 
   var start = function () {
