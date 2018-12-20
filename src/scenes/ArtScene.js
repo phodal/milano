@@ -1,6 +1,7 @@
 define(['createjs'], function () {
   var isMouseDown, oldPosition, currentShape, selectedColor, oldMidX, oldMidY, oldX, oldY;
   var firstLoad, txt, stage, sceneContainer, stopButton, clearButton, shape, isEnableDraw = false;
+  var isErase = false;
 
   function ArtScene(s) {
     stage = s;
@@ -13,6 +14,9 @@ define(['createjs'], function () {
 
     createjs.Touch.enable(stage);
     createjs.Ticker.framerate = 24;
+
+    shape = new createjs.Shape();
+    shape.cache(0, 0, stage.canvas.width, stage.canvas.height);
   }
 
   ArtScene.prototype.tick = function (event) {
@@ -22,6 +26,9 @@ define(['createjs'], function () {
       currentShape
         .graphics.moveTo(midPoint.x, midPoint.y)
         .curveTo(oldX, oldY, oldMidX, oldMidY);
+
+      currentShape.updateCache(isErase ? "destination-out" : "source-over");
+      // shape.graphics.clear();
 
       oldX = pt.x;
       oldY = pt.y;
@@ -33,6 +40,10 @@ define(['createjs'], function () {
     }
   };
 
+  function getRandomRGB() {
+    return Math.random() * 255 | 0;
+  }
+
   function handleMouseDown() {
     if (!isEnableDraw) {
       return;
@@ -43,7 +54,6 @@ define(['createjs'], function () {
     }
 
     firstLoad = false;
-    shape = new createjs.Shape();
     oldX = stage.mouseX;
     oldY = stage.mouseY;
     oldMidX = stage.mouseX;
@@ -51,10 +61,12 @@ define(['createjs'], function () {
     var g = shape.graphics;
     var thickness = Math.random() * 10 + 5 | 0;
     g.setStrokeStyle(thickness + 1, 'round', 'round');
-    selectedColor = createjs.Graphics.getRGB(Math.random() * 255 | 0, Math.random() * 255 | 0, Math.random() * 255 | 0);
+    selectedColor = createjs.Graphics
+      .getRGB(getRandomRGB(), getRandomRGB(), getRandomRGB());
     g.beginStroke(selectedColor);
-    sceneContainer.addChild(shape);
+
     currentShape = shape;
+    sceneContainer.addChild(shape);
 
     sceneContainer.setChildIndex(stopButton, sceneContainer.numChildren - 1);
     sceneContainer.setChildIndex(clearButton, sceneContainer.numChildren - 2);
@@ -82,7 +94,7 @@ define(['createjs'], function () {
       .beginFill('#000000')
       .drawRect(80, 15, 30, 30));
     clearButton.addEventListener('click', function (event) {
-
+      isErase = !isErase;
     });
 
     sceneContainer.addChild(stopButton);
