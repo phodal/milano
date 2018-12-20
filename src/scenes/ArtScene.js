@@ -49,7 +49,7 @@ define(['createjs'], function () {
     oldMidX = stage.mouseX;
     oldMidY = stage.mouseY;
     var g = shape.graphics;
-    var thickness = Math.random() * 30 + 10 | 0;
+    var thickness = Math.random() * 10 + 5 | 0;
     g.setStrokeStyle(thickness + 1, 'round', 'round');
     selectedColor = createjs.Graphics.getRGB(Math.random() * 255 | 0, Math.random() * 255 | 0, Math.random() * 255 | 0);
     g.beginStroke(selectedColor);
