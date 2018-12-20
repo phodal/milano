@@ -1,6 +1,6 @@
 define(['createjs'], function () {
   var isMouseDown, oldPosition, currentShape, selectedColor, oldMidX, oldMidY, oldX, oldY;
-  var firstLoad, txt, stage, sceneContainer, isEnableDraw = false;
+  var firstLoad, txt, stage, sceneContainer, stopButton, shape, isEnableDraw = false;
 
   function ArtScene(s) {
     stage = s;
@@ -43,7 +43,7 @@ define(['createjs'], function () {
     }
 
     firstLoad = false;
-    var shape = new createjs.Shape();
+    shape = new createjs.Shape();
     oldX = stage.mouseX;
     oldY = stage.mouseY;
     oldMidX = stage.mouseX;
@@ -53,7 +53,7 @@ define(['createjs'], function () {
     g.setStrokeStyle(thickness + 1, 'round', 'round');
     selectedColor = createjs.Graphics.getRGB(Math.random() * 255 | 0, Math.random() * 255 | 0, Math.random() * 255 | 0);
     g.beginStroke(selectedColor);
-    stage.addChild(shape);
+    sceneContainer.addChild(shape);
     currentShape = shape;
   }
 
@@ -62,10 +62,20 @@ define(['createjs'], function () {
   }
 
   ArtScene.prototype.action = function () {
+    var that = this;
+
     stage.addEventListener("stagemousedown", handleMouseDown);
     stage.addEventListener("stagemouseup", handleMouseUp);
     stage.update();
 
+    stopButton = new createjs.Shape(new createjs.Graphics()
+      .beginFill('#dddddd')
+      .drawCircle(30, 30, 15));
+    stopButton.addEventListener('click', function (event) {
+      that.finish();
+    });
+
+    sceneContainer.addChild(stopButton);
     return sceneContainer;
   };
 
@@ -78,7 +88,9 @@ define(['createjs'], function () {
   };
 
   ArtScene.prototype.finish = function () {
+    sceneContainer.removeAllChildren();
     stage.removeChild(sceneContainer);
+    stage.update();
   };
 
   return ArtScene;
