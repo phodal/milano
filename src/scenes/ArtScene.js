@@ -1,87 +1,56 @@
 define(['createjs'], function () {
-  var isMouseDown, oldPosition, currentShape, selectedColor, oldMidX, oldMidY, oldX, oldY;
-  var firstLoad, txt, stage, sceneContainer, stopButton, clearButton, shape, isEnableDraw = false;
+  var moveStageX, moveStageY, art, listener, color, hue = 0;
+  var stage, sceneContainer, stopButton, clearButton, shape, isEnableDraw = false;
   var isErase = false;
 
   function ArtScene(s) {
     stage = s;
-    stage.enableDOMEvents(true);
     sceneContainer = new createjs.Container();
-    oldPosition = new createjs.Point(stage.mouseX, stage.mouseY);
-    stage.autoClear = true;
-    stage.onMouseDown = handleMouseDown;
-    stage.onMouseUp = handleMouseUp;
 
-    createjs.Touch.enable(stage);
-    createjs.Ticker.framerate = 24;
+    art = stage.addChild(new createjs.Shape());
+    art.cache(0, 0, stage.canvas.width, stage.canvas.height);
 
-    shape = new createjs.Shape();
-    shape.cache(0, 0, stage.canvas.width, stage.canvas.height);
+    stage.on("stagemousedown", startDraw, this);
   }
 
   ArtScene.prototype.tick = function (event) {
-    if (isMouseDown) {
-      var pt = new createjs.Point(stage.mouseX, stage.mouseY);
-      var midPoint = new createjs.Point(oldX + pt.x >> 1, oldY + pt.y >> 1);
-      currentShape
-        .graphics.moveTo(midPoint.x, midPoint.y)
-        .curveTo(oldX, oldY, oldMidX, oldMidY);
 
-      currentShape.updateCache(isErase ? "destination-out" : "source-over");
-      // shape.graphics.clear();
-
-      oldX = pt.x;
-      oldY = pt.y;
-
-      oldMidX = midPoint.x;
-      oldMidY = midPoint.y;
-
-      stage.update();
-    }
   };
 
-  function getRandomRGB() {
-    return Math.random() * 255 | 0;
-  }
-
-  function handleMouseDown() {
+  function startDraw(evt) {
     if (!isEnableDraw) {
       return;
     }
-    isMouseDown = true;
-    if (firstLoad) {
-      stage.removeChild(txt);
-    }
 
-    firstLoad = false;
-    oldX = stage.mouseX;
-    oldY = stage.mouseY;
-    oldMidX = stage.mouseX;
-    oldMidY = stage.mouseY;
-    var g = shape.graphics;
-    var thickness = Math.random() * 10 + 5 | 0;
-    g.setStrokeStyle(thickness + 1, 'round', 'round');
-    selectedColor = createjs.Graphics
-      .getRGB(getRandomRGB(), getRandomRGB(), getRandomRGB());
-    g.beginStroke(selectedColor);
-
-    currentShape = shape;
-    sceneContainer.addChild(shape);
-
-    sceneContainer.setChildIndex(stopButton, sceneContainer.numChildren - 1);
-    sceneContainer.setChildIndex(clearButton, sceneContainer.numChildren - 2);
+    listener = stage.on("stagemousemove", draw, this);
+    stage.on("stagemouseup", endDraw, this);
+    color = createjs.Graphics.getHSL(hue += 85, 50, 50);
+    moveStageX = evt.stageX - 0.001; // offset so we draw an initial dot
+    moveStageY = evt.stageY - 0.001;
+    draw(evt); // draw the initial dot
   }
 
-  function handleMouseUp() {
-    isMouseDown = false;
+  function draw(evt) {
+    art.graphics.setStrokeStyle(20, 1)
+      .beginStroke(color)
+      .moveTo(moveStageX, moveStageY)
+      .lineTo(evt.stageX, evt.stageY);
+
+    art.updateCache(isErase ? "destination-out" : "source-over");
+
+    art.graphics.clear();
+    moveStageX = evt.stageX;
+    moveStageY = evt.stageY;
+    stage.update();
+  }
+
+  function endDraw(evt) {
+    stage.off("stagemousemove", listener);
+    evt.remove();
   }
 
   ArtScene.prototype.action = function () {
     var that = this;
-
-    stage.addEventListener("stagemousedown", handleMouseDown);
-    stage.addEventListener("stagemouseup", handleMouseUp);
-    stage.update();
 
     stopButton = new createjs.Shape(new createjs.Graphics()
       .beginFill('#ffffff')
