@@ -7,7 +7,7 @@ define(['createjs'], function () {
     stage = s;
     sceneContainer = new createjs.Container();
 
-    art = stage.addChild(new createjs.Shape());
+    art = sceneContainer.addChild(new createjs.Shape());
     art.cache(0, 0, stage.canvas.width, stage.canvas.height);
 
     stage.on("stagemousedown", startDraw, this);
