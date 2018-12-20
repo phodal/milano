@@ -11,7 +11,7 @@ define([
   'createjs'
 ], function (COLORS, ClockScene, RunningGame, SelectScene, ArtScene, EventBus, QuestionServices,
              DragServices, DragOpenDoor) {
-  var stage, stageContainer, preload, stageWidth, stageHeight, dragBox, clockScene, selectScene;
+  var stage, stageContainer, preload, stageWidth, stageHeight, dragBox, clockScene, selectScene, artScene;
   var background, lastDragPoint = 0, offset = new createjs.Point(0, 0),  isRunningGame = false, runningGame;
   var isClockDone = false;
   var dragRatio = 0.8;
@@ -101,14 +101,15 @@ define([
     });
 
     var options = {
-      x: doorContainer.x + doorContainer.width,
+      x: 0,
       y: doorContainer.y + doorContainer.height,
       height: 400,
       width: stageWidth
     };
 
-    var artScene = new ArtScene(stage, options);
-    artScene.action();
+    artScene = new ArtScene(stage, options);
+    var artContainer = artScene.action();
+    stage.addChild(artContainer);
   }
 
   var start = function () {
@@ -157,6 +158,10 @@ define([
       runningGame.tick(event);
     }
     stage.update(event);
+
+    if (artScene != null) {
+      artScene.tick(event);
+    }
   }
 
   var finish = function () {
