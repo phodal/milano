@@ -27,6 +27,11 @@ define([
       .drawRect(0, stageHeight + 240 - circleRadius - 5, stageWidth, circleRadius * 2 + 10);
     staticShape.alpha = 0.8;
 
+    staticShape.addEventListener('click', function (event) {
+      console.log(event);
+      dragTarget.x = event.stageX;
+    });
+
     sceneContainer.addChild(staticShape);
 
     dragTarget = sceneContainer.addChild(new createjs.Shape());
