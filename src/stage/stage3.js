@@ -3,9 +3,13 @@ define([
   'src/effects/snow.js',
   'createjs',
 ], function (COLORS, Snow) {
-  var stage, preload, snow;
+  var stage, preload, snow, that;
 
-  var load = function () {
+  function Stage3() {
+    that = this;
+  }
+
+  Stage3.prototype.load = function () {
     stage = new createjs.Stage('demoCanvas');
     createjs.Touch.enable(stage);
 
@@ -21,7 +25,7 @@ define([
     })
   };
 
-  var start = function () {
+  Stage3.prototype.start = function () {
     var keyContainer = new createjs.Container();
     var background = new createjs.Shape();
     background.graphics.beginFill("#f5f5f5").drawRect(0, 0, stage.canvas.width, stage.canvas.height);
@@ -71,18 +75,19 @@ define([
 
     function handleClick(event) {
       console.log(event);
-      finish();
+      that.finish();
     }
   }
 
-  var finish = function () {
+  Stage3.prototype.endStage = function () {
     stage.removeAllChildren();
+  };
+
+  Stage3.prototype.finish = function () {
+    this.endStage();
     SceneDispatcher.nextScene();
   };
 
-  return {
-    load: load,
-    start: start,
-    finish: finish
-  };
+
+  return Stage3;
 });

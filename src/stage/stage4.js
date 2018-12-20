@@ -2,9 +2,13 @@ define([
   'src/constants/colors.js',
   'createjs',
 ], function (COLORS) {
-  var stage, preload, light;
+  var stage, preload, light, that;
 
-  var load = function () {
+  function Stage4() {
+    that = this;
+  }
+
+  Stage4.prototype.load = function () {
     stage = new createjs.Stage('demoCanvas');
     createjs.Touch.enable(stage);
 
@@ -50,11 +54,11 @@ define([
 
     function handleClick(event) {
       console.log(event);
-      finish();
+      that.finish();
     }
   }
 
-  var start = function () {
+  Stage4.prototype.start = function () {
     nextButton();
 
     createjs.Ticker.timingMode =  createjs.Ticker.RAF_SYNCHED;
@@ -63,14 +67,14 @@ define([
     });
   };
 
-  var finish = function () {
+  Stage4.prototype.endStage = function () {
     stage.removeAllChildren();
+  };
+
+  Stage4.prototype.finish = function () {
+    this.endStage();
     SceneDispatcher.nextScene();
   };
 
-  return {
-    load: load,
-    start: start,
-    finish: finish
-  };
+  return Stage4;
 });

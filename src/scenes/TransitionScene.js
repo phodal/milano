@@ -18,10 +18,11 @@ define([
     var startNewScene = function () {
       if (!window.lastStage) {
         appStage.start();
+        window.lastStage = appStage;
         return;
       }
 
-      window.lastStage.finish();
+      window.lastStage.endStage();
       appStage.start();
       window.lastStage = appStage;
     };

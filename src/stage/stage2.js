@@ -8,9 +8,13 @@ define([
     ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
     ['Z', 'X', 'C', 'V', 'B', 'N', 'M', '删除', '确认']
   ];
-  var tipCount = 0;
+  var tipCount = 0, that;
 
-  var load = function () {
+  function Stage2() {
+    that = this;
+  }
+
+  Stage2.prototype.load = function () {
     stage = new createjs.Stage('demoCanvas');
     createjs.Touch.enable(stage);
 
@@ -37,7 +41,7 @@ define([
       keyboardValues.pop();
       typingValue.x = (stage.canvas.width - boundWidth) / 2;
     } else if (text === '确认') {
-      finish();
+      that.finish();
     } else {
       keyboardValues.push(text);
       typingValue.x = (stage.canvas.width - boundWidth) / 2;
@@ -83,7 +87,7 @@ define([
     }
   };
 
-  var start = function () {
+  Stage2.prototype.start = function () {
     typingValue = new createjs.Text('', '20px monospace', COLORS.SCENE_TEXT);
     typingValue.x = stage.canvas.width / 2;
     typingValue.y = 100;
@@ -117,14 +121,14 @@ define([
     });
   };
 
-  var finish = function () {
+  Stage2.prototype.endStage = function () {
     stage.removeAllChildren();
+  };
+
+  Stage2.prototype.finish = function () {
+    this.endStage();
     SceneDispatcher.nextScene();
   };
 
-  return {
-    load: load,
-    start: start,
-    finish: finish
-  };
+  return Stage2;
 });

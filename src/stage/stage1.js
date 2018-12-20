@@ -11,14 +11,14 @@ define([
   'createjs'
 ], function (COLORS, ClockScene, RunningGame, SelectScene, ArtScene, EventBus, QuestionServices,
              DragServices, DragOpenDoor) {
-  var stage, stageContainer, preload, stageWidth, stageHeight, dragBox, clockScene, selectScene, artScene;
+  var stage, that, stageContainer, preload, stageWidth, stageHeight, dragBox, clockScene, selectScene, artScene;
   var background, lastDragPoint = 0, offset = new createjs.Point(0, 0), isRunningGame = false, runningGame;
   var clockContainer;
   var isClockDone = false;
   var dragRatio = 0.8;
 
   function Stage1() {
-
+    that = this;
   }
 
   Stage1.prototype.load = function () {
@@ -109,7 +109,7 @@ define([
       dragRatio = 1.6;
     });
     door.onFinish(function () {
-      finish();
+      that.finish();
     });
 
     artScene = new ArtScene(stage);
@@ -168,17 +168,19 @@ define([
   }
 
   Stage1.prototype.finish = function () {
-    createjs.Tween.get(stageContainer).to({alpha: 0.5}, 1000).call(function () {
-      stage.removeAllChildren();
-      SceneDispatcher.nextScene();
-    });
+    this.endStage();
+    SceneDispatcher.nextScene();
   };
 
-  var gameOver = function (data) {
+  Stage1.prototype.endStage = function () {
     dragBox.removeEventListener('pressmove');
     dragBox.removeEventListener('pressup');
     clockContainer.removeEventListener('click');
     stage.removeAllChildren();
+  };
+
+  var gameOver = function (data) {
+    Stage1.prototype.endStage();
     SceneDispatcher.gameOver(data);
   };
 

@@ -2,9 +2,13 @@ define([
   'src/effects/light.js',
   'createjs',
 ], function (Light) {
-  var stage, preload, light;
+  var stage, preload, light, that;
 
-  var load = function () {
+  function Stage5() {
+    that = this;
+  }
+
+  Stage5.prototype.load = function () {
     stage = new createjs.Stage('demoCanvas');
     createjs.Touch.enable(stage);
 
@@ -22,7 +26,7 @@ define([
     })
   };
 
-  var start = function () {
+  Stage5.prototype.start = function () {
     var keyContainer = new createjs.Container();
     var background = new createjs.Shape();
     background.graphics.beginFill("#000000").drawRect(0, 0, stage.canvas.width, stage.canvas.height);
@@ -37,14 +41,14 @@ define([
     });
   };
 
-  var finish = function () {
+  Stage5.prototype.endStage = function () {
     stage.removeAllChildren();
+  };
+
+  Stage5.prototype.finish = function () {
+    this.endStage();
     SceneDispatcher.nextScene();
   };
 
-  return {
-    load: load,
-    start: start,
-    finish: finish
-  };
+  return Stage5;
 });
