@@ -20,6 +20,7 @@ require([
 ], function (SceneDispatcher, App) {
   document.getElementById("loading").remove();
   window.mConfig = {
+    currentStage: null,
     debug: window.location.hostname === 'localhost'
   };
 

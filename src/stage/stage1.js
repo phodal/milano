@@ -20,6 +20,8 @@ define([
   var load = function () {
     background = new createjs.Shape();
     stage = new createjs.Stage('demoCanvas');
+    window.mConfig.currentStage = stage;
+
     preload = new createjs.LoadQueue();
     createjs.Touch.enable(stage);
     createjs.Sound.alternateExtensions = ['mp3'];

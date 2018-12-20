@@ -41,6 +41,7 @@ define([
 
   var initApp = function () {
     stage = new createjs.Stage("demoCanvas");
+    window.mConfig.currentStage = stage;
     // 重新缩放 Canvas
     stage.canvas.width = window.innerWidth;
     stage.canvas.height = window.innerHeight;

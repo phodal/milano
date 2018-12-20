@@ -14,7 +14,7 @@ define([
     });
 
     var startNewScene = function () {
-      stage.removeAllChildren();
+      window.mConfig.currentStage.removeAllChildren();
       AppStage.start();
     };
 
