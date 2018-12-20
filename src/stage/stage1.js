@@ -13,6 +13,7 @@ define([
              DragServices, DragOpenDoor) {
   var stage, stageContainer, preload, stageWidth, stageHeight, dragBox, clockScene, selectScene, artScene;
   var background, lastDragPoint = 0, offset = new createjs.Point(0, 0),  isRunningGame = false, runningGame;
+  var clockContainer;
   var isClockDone = false;
   var dragRatio = 0.8;
 
@@ -74,7 +75,7 @@ define([
   }
 
   function handleClock() {
-    var clockContainer = clockScene.action();
+    clockContainer = clockScene.action();
     var soundInstance = createjs.Sound.play('definite.mp3', {interrupt: createjs.Sound.INTERRUPT_ANY, loop: -1});
     clockContainer.addEventListener('click', function () {
       clockContainer.removeAllChildren();
@@ -170,6 +171,9 @@ define([
   };
 
   var gameOver = function (data) {
+    dragBox.removeEventListener('pressmove');
+    dragBox.removeEventListener('pressup');
+    clockContainer.removeEventListener('click');
     stage.removeAllChildren();
     SceneSwitcher.gameOver(data);
   };
