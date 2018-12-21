@@ -173,6 +173,7 @@ define([
   };
 
   Stage1.prototype.endStage = function () {
+    createjs.Sound.stop('definite.mp3');
     dragBox.removeEventListener('pressmove');
     dragBox.removeEventListener('pressup');
     clockContainer.removeEventListener('click');
