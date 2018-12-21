@@ -19,9 +19,7 @@ define([
 
   function Stage1() {
     that = this;
-  }
 
-  Stage1.prototype.load = function () {
     background = new createjs.Shape();
     stage = new createjs.Stage('demoCanvas');
     preload = new createjs.LoadQueue();
@@ -37,7 +35,9 @@ define([
     dragBox.addEventListener('pressmove', startDrag);
     dragBox.addEventListener('pressup', stopDrag);
     stage.addChild(dragBox);
+  }
 
+  Stage1.prototype.load = function () {
     return new Promise(function (resolve, reject) {
       preload.installPlugin(createjs.Sound);
       preload.addEventListener('complete', function () {
