@@ -38,7 +38,7 @@ define([
 
     nextButton();
 
-    createjs.Ticker.on('tick', function () {
+    this.tickListener = createjs.Ticker.on('tick', function () {
       stage.update();
     });
 
@@ -74,7 +74,6 @@ define([
     button.addEventListener('click', handleClick);
 
     function handleClick(event) {
-      console.log(event);
       that.finish();
     }
   }

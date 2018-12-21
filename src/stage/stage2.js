@@ -107,7 +107,7 @@ define([
     stage.addChild(tipText);
     stage.update();
 
-    createjs.Ticker.on('tick', function (event) {
+    this.tickListener = createjs.Ticker.on('tick', function (event) {
       tipCount++;
       if (tipCount >= 8 && typingValue.getBounds()) {
         tipText.x = typingValue.x + typingValue.getBounds().width;

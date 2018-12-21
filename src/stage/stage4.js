@@ -53,7 +53,6 @@ define([
     button.addEventListener('click', handleClick);
 
     function handleClick(event) {
-      console.log(event);
       that.finish();
     }
   }
@@ -62,7 +61,7 @@ define([
     nextButton();
 
     createjs.Ticker.timingMode =  createjs.Ticker.RAF_SYNCHED;
-    createjs.Ticker.addEventListener("tick", function () {
+    this.tickListener = createjs.Ticker.addEventListener("tick", function () {
       stage.update();
     });
   };

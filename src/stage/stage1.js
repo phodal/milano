@@ -149,7 +149,7 @@ define([
       createRunningGame();
     });
 
-    createjs.Ticker.on('tick', handleTick);
+    this.tickListener = createjs.Ticker.on('tick', handleTick);
   };
 
   function handleTick(event) {

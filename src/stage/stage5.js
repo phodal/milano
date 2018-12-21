@@ -36,7 +36,7 @@ define([
     light.action();
 
     createjs.Ticker.setFPS(30);
-    createjs.Ticker.addEventListener("tick", function () {
+    this.tickListener = createjs.Ticker.addEventListener("tick", function () {
       stage.update();
     });
   };

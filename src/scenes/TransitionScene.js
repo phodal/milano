@@ -22,6 +22,7 @@ define([
         return;
       }
 
+      createjs.Ticker.off('tick', window.lastStage.tickListener);
       window.lastStage.endStage();
       appStage.start();
       window.lastStage = appStage;
