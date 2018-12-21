@@ -39,14 +39,15 @@ define([
 
     if (text === '删除') {
       keyboardValues.pop();
-      typingValue.x = (stage.canvas.width - boundWidth) / 2;
     } else if (text === '确认') {
       that.finish();
+      return;
     } else {
       keyboardValues.push(text);
-      typingValue.x = (stage.canvas.width - boundWidth) / 2;
     }
+
     typingValue.text = keyboardValues.join('');
+    typingValue.x = (stage.canvas.width - boundWidth) / 2;
     stage.update();
   };
 
