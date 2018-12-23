@@ -60,18 +60,20 @@ define([
         var char = KEYBOARDS[charsIndex][index];
         var keyContainer = new createjs.Container();
         var keyboardText;
-        if (char === '删除' || char === '确认') {
-          keyboardText = new createjs.Text(char, "12px monospace", COLORS.KEYBOARD);
-        } else {
-          keyboardText = new createjs.Text(char, "24px monospace", COLORS.KEYBOARD);
-        }
-
         var bg1 = new createjs.Shape();
         bg1.graphics.beginFill(COLORS.KEYBOARD_BG).drawRoundRectComplex(kX - keyboardFontSize / 2 + 8, kY - keyboardFontSize / 2 - 5,
           keyboardFontSize - 2, keyboardFontSize - 2, 4, 4, 4, 4);
 
-        keyboardText.x = kX;
-        keyboardText.y = kY;
+        if (char === '删除' || char === '确认') {
+          keyboardText = new createjs.Text(char, "12px monospace", COLORS.KEYBOARD);
+          keyboardText.x = kX - 4;
+          keyboardText.y = kY - 2;
+        } else {
+          keyboardText = new createjs.Text(char, "24px monospace", COLORS.KEYBOARD);
+          keyboardText.x = kX;
+          keyboardText.y = kY;
+        }
+
         keyboardText.textBaseline = "alphabetic";
         kX = kX + keyboardFontSize;
 
