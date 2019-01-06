@@ -3,10 +3,12 @@ define([
   'createjs'
 ], function (COLORS) {
   var stage, preload, typingValue, keyboardFontSize = 30, keyboardValues = [];
+  var DELETE_WORD = '删除';
+  var OK_WORD = '确认';
   var KEYBOARDS = [
     ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
     ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
-    ['Z', 'X', 'C', 'V', 'B', 'N', 'M', '删除', '确认']
+    ['Z', 'X', 'C', 'V', 'B', 'N', 'M', DELETE_WORD, OK_WORD]
   ];
   var tipCount = 0, that;
 
@@ -37,9 +39,9 @@ define([
       boundWidth = typingValue.getBounds().width;
     }
 
-    if (text === '删除') {
+    if (text === DELETE_WORD) {
       keyboardValues.pop();
-    } else if (text === '确认') {
+    } else if (text === OK_WORD) {
       that.finish();
       return;
     } else {
