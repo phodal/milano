@@ -1,8 +1,7 @@
 define(['createjs'], function () {
   var that, stage, preload;
   function BaseStage(stageNumber) {
-    that = this;
-    that.stageNumber = stageNumber;
+    this.stageNumber = stageNumber;
 
     this.background = new createjs.Shape();
     this.stage = new createjs.Stage('demoCanvas');
@@ -16,15 +15,16 @@ define(['createjs'], function () {
   }
 
   BaseStage.prototype.load = function () {
+    var that = this;
     return new Promise(function (resolve, reject) {
-      preload.installPlugin(createjs.Sound);
-      preload.addEventListener('complete', function () {
+      that.preload.installPlugin(createjs.Sound);
+      that.preload.addEventListener('complete', function () {
         resolve();
       });
-      preload.addEventListener('error', function () {
+      that.preload.addEventListener('error', function () {
         reject();
       });
-      preload.loadManifest({src: 'assets/manifest/stage' + that.stageNumber + '.manifest.json', type: 'manifest'});
+      that.preload.loadManifest({src: 'assets/manifest/stage' + that.stageNumber + '.manifest.json', type: 'manifest'});
     })
   };
 
