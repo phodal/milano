@@ -54,16 +54,6 @@ define([
       if (this.startJumpCount) {
         this.jumpCount++;
       }
-
-      if (!this.isJumping && this.jumpCount >= 5) {
-        this.grant.y = this.originGrantY;
-        this.startJumpCount = false;
-        this.jumpCount = 0;
-      } else if (this.isJumping) {
-        this.grant.y = this.grant.y - 10;
-        this.isJumping = false;
-        this.jumpCount = 0;
-      }
     },
     playAnimation: function (animation) {
       this.grant.y = this.originGrantY;
