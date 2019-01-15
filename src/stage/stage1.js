@@ -16,6 +16,7 @@ define([
   var clockContainer;
   var isClockDone = false;
   var dragRatio = 0.8;
+  var isShowDragDoor = false;
 
   function Stage1() {
     that = this;
@@ -97,7 +98,9 @@ define([
     sceneContainer.y = stageHeight / 8;
     stageContainer.addChild(sceneContainer);
     isRunningGame = true;
+  }
 
+  function createDoorGame() {
     var door = new DragOpenDoor(stage);
     var doorContainer = door.action();
     stageContainer.addChild(doorContainer);
@@ -159,6 +162,14 @@ define([
     }
     if (isRunningGame) {
       runningGame.tick(event);
+
+      if (!isShowDragDoor && RunningGame.getState().virtualTimeFinish) {
+        isShowDragDoor = true;
+      }
+    }
+
+    if (isShowDragDoor) {
+      createDoorGame();
     }
     if (artScene != null) {
       artScene.tick(event);
