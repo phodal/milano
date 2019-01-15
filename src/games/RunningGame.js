@@ -6,8 +6,8 @@ define([
   var stage, preload, sceneContainer, cloud1, cloud2, character, tree1, tree2, ground;
   var stageWidth, stageHeight, jumpButton, clockShape, timeContainer, insideCircle;
   var virtualTime = 50;
-  var rectWidth = 40;
-  var rectHeight = 12;
+  var rectWidth = 60;
+  var rectHeight = 16;
 
   function RunningGame(s, p) {
     stage = s;
@@ -101,7 +101,7 @@ define([
     clockShape.x = 0;
     clockShape.y = rectHeight / 2;
 
-    var shapeText = new createjs.Text("7:" + virtualTime, "12px monospace", Colors.KEYBOARD);
+    var shapeText = new createjs.Text("7:" + virtualTime, "16px monospace", Colors.KEYBOARD);
     shapeText.x = rectWidth / 2;
     shapeText.y = rectHeight / 2;
     shapeText.textAlign = "center";
